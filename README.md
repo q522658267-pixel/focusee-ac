@@ -40,10 +40,25 @@ python build.py
 
 ## 部署
 
-**线上地址：https://q522658267-pixel.github.io/focusee-ac/**
+**线上地址：https://focuseetech.com/**（www 也可访问）
+备用地址：https://q522658267-pixel.github.io/focusee-ac/（会自动 301 跳到主域名）
 仓库：https://github.com/q522658267-pixel/focusee-ac
 
-已部署到 GitHub Pages（main 分支根目录）。更新流程：
+托管：**GitHub Pages**（main 分支根目录），自定义域名 focuseetech.com，HTTPS 已开启（证书有效期至 2026-12-19，到期前 GitHub 会自动续）。
+
+DNS（在域名商处配置，保持不变即可）：
+
+| 类型 | 主机记录 | 记录值 |
+|---|---|---|
+| A | @ | 185.199.108.153 |
+| A | @ | 185.199.109.153 |
+| A | @ | 185.199.110.153 |
+| A | @ | 185.199.111.153 |
+| CNAME | www | q522658267-pixel.github.io |
+
+仓库根目录有 `CNAME` 文件（内容 `focuseetech.com`），**不要删除**，删了域名会解绑。
+
+更新流程：
 
 ```bash
 cd focusee-ac
