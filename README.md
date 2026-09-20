@@ -40,7 +40,18 @@ python build.py
 
 ## 部署
 
-纯静态站，把整个 `focusee-ac/` 目录上传到任意静态托管（mule.page / Netlify / Vercel / 自有服务器）即可，入口是 `index.html`。
+**线上地址：https://q522658267-pixel.github.io/focusee-ac/**
+仓库：https://github.com/q522658267-pixel/focusee-ac
+
+已部署到 GitHub Pages（main 分支根目录）。更新流程：
+
+```bash
+cd focusee-ac
+python build.py          # 如改了 data/products.json 或 build.py
+git add -A
+git commit -m "update"
+git push                 # 推完约 1 分钟自动重新发布
+```
 
 本地预览：
 
@@ -48,6 +59,8 @@ python build.py
 python -m http.server 8899
 # 打开 http://127.0.0.1:8899/index.html
 ```
+
+> 注意：本机 `HOME` 是 POSIX 风格路径，gh CLI 写配置会失败。用 gh 命令时前面加 `HOME='C:\Users\ASUS'`。
 
 ## 备注
 
