@@ -77,6 +77,30 @@ python -m http.server 8899
 
 > 注意：本机 `HOME` 是 POSIX 风格路径，gh CLI 写配置会失败。用 gh 命令时前面加 `HOME='C:\Users\ASUS'`。
 
+## SEO
+
+全站已做的技术 SEO（改 build.py 后自动重新生成，无需手工维护）：
+
+| 项目 | 说明 |
+|---|---|
+| canonical | 每页唯一绝对地址，指向 `https://focuseetech.com/...`，自动消 www / github.io 的重复内容 |
+| title / description | 每页独立，产品页自动带型号 + 品类 + 关键规格；不含 HTML 实体泄漏 |
+| Open Graph / Twitter Card | `og:title/description/url/image/type`，分享卡片用 `assets/img/og-cover.jpg`（1200×630，产品页自动换该产品主图） |
+| 结构化数据 | 首页 `Organization` + `WebSite` + `FAQPage`；products `ItemList`；52+ 产品页 `Product`（含 sku/品牌/类目/图片/供货范围）；全站 `BreadcrumbList`；contact `ContactPage` |
+| robots | `index,follow,max-image-preview:large` |
+| sitemap.xml | 57 条 URL，带 priority 与 changefreq，`build.py` 每次重新生成 |
+| robots.txt | 放行全站并声明 sitemap |
+| 404.html | GitHub Pages 会自动用根目录 404.html 作为自定义错误页 |
+| 语义化 | 每页唯一 `h1`，面包屑用真实链接（非 JS），产品页有 prev/next 与相关型号内链 |
+| 图片 | `alt` 为「型号 + 品类 + 视角」自然描述；全部带 `width/height` 防布局抖动；首屏图 `fetchpriority="high"`，其余 `loading="lazy"` |
+| 速度 | 191 张图全部自动转 WebP（30MB → 3.6MB，省 88%），HTML 用 `<picture>` 保留原图回退，老浏览器不受影响 |
+
+**待办（需要人工操作，需账号权限）**
+
+1. Google Search Console 验证 `focuseetech.com` → 提交 `https://focuseetech.com/sitemap.xml`
+2. Bing Webmaster Tools 同样提交一次
+3. 建议给 www 也做 301 到主域（GitHub Pages 不会自动跳），可选
+
 ## 备注
 
 - 产品图片来自参考站点，均为干净的产品棚拍图，无第三方品牌水印。

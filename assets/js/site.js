@@ -29,13 +29,25 @@
     });
   }
 
-  /* product gallery */
+  /* product gallery — keeps <picture><source type=webp> in sync with <img> */
   var m=document.getElementById('pdmain');
   if(m){
+    var wrap=m.parentNode, sp=(wrap && wrap.tagName==='PICTURE') ? wrap.querySelector('source') : null;
     document.querySelectorAll('.pd-thumbs button').forEach(function(b){
       b.addEventListener('click',function(){
         document.querySelectorAll('.pd-thumbs button').forEach(function(x){x.classList.remove('on');});
         b.classList.add('on');
+        var w=b.getAttribute('data-webp');
+        if(sp){
+          if(w){
+            /* re-attach if a previous switch had to detach the webp source */
+            if(!sp.parentNode) wrap.insertBefore(sp, m);
+            sp.setAttribute('srcset', w);
+          } else if(sp.parentNode){
+            /* this image has no webp sibling: drop the source or the old one keeps winning */
+            sp.parentNode.removeChild(sp);
+          }
+        }
         m.src=b.dataset.src;
       });
     });

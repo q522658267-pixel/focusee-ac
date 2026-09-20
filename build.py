@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """FOCUSEE portable air conditioner site generator."""
-import json, os, re, html, sys
+import json, os, re, html, sys, time
 sys.stdout.reconfigure(encoding='utf-8')
 
 ROOT = os.path.dirname(os.path.abspath(__file__))
@@ -8,6 +8,9 @@ DATA = json.load(open(os.path.join(os.path.dirname(os.path.abspath(__file__)), '
 
 COMPANY   = 'Focusee Company Limited'
 ADDRESS   = 'Factory House B, Changmingshui Industrial Park, Changyi Road, Wuguishan, Zhongshan City, Guangdong Province, China 528458'
+SITE      = 'https://focuseetech.com/'
+OG_IMAGE  = SITE + 'assets/img/og-cover.jpg'
+LOGO_IMG  = SITE + 'assets/img/logo.png'
 PEOPLE = [
     dict(name='Carol Luo', role='General Manager', email='carol.luo@focuseetech.com', wa='+86 133 7848 2598', wl='8613378482598'),
     dict(name='Robert Luo', role='Marketing Manager', email='Marketing@focuseetech.com', wa='+86 134 2565 1968', wl='8613425651968'),
@@ -24,6 +27,10 @@ CAT_DESC = {
 
 # ------------------------------------------------------------------ helpers
 def esc(s): return html.escape(str(s if s is not None else ''))
+def esca(s):
+    """Escape for use inside a double-quoted HTML attribute (keeps apostrophes literal)."""
+    return (str(s if s is not None else '').replace('&', '&amp;').replace('<', '&lt;')
+            .replace('>', '&gt;').replace('"', '&quot;'))
 def slug(s): return re.sub(r'[^a-z0-9]+','-',(s or '').lower()).strip('-') or 'product'
 LOGO = '68ca51498f2ea.png'
 def gallery(p):
@@ -40,12 +47,31 @@ HEAD_T = '''<!DOCTYPE html>
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>{{T}}</title>
 <meta name="description" content="{{D}}">
-<meta name="keywords" content="portable air conditioner, dehumidifier manufacturer, OEM portable AC, R290 air conditioner, portable AC supplier China, Focusee">
+<meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1">
+<meta name="author" content="Focusee Company Limited">
+<link rel="canonical" href="{{CANON}}">
+<meta name="theme-color" content="#0B5CAB">
+<meta property="og:type" content="{{OGT}}">
+<meta property="og:site_name" content="Focusee Company Limited">
+<meta property="og:locale" content="en_US">
+<meta property="og:title" content="{{T}}">
+<meta property="og:description" content="{{D}}">
+<meta property="og:url" content="{{CANON}}">
+<meta property="og:image" content="{{OGI}}">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Focusee Company Limited - portable air conditioners and dehumidifiers">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="{{T}}">
+<meta name="twitter:description" content="{{D}}">
+<meta name="twitter:image" content="{{OGI}}">
 <link rel="icon" href="{{R}}assets/img/logo.png">
+<link rel="apple-touch-icon" href="{{R}}assets/img/logo.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="{{R}}assets/css/style.css">
+{{JSONLD}}
 </head>
 <body>
 '''
@@ -135,20 +161,200 @@ def cta(r=''):
   </div>
 </section>'''
 
-def page(fname, title, desc, body, active='', r=''):
-    htmlout = HEAD_T.replace('{{T}}', esc(title)).replace('{{D}}', esc(desc)).replace('{{R}}', r)
-    htmlout += header(active, r) + body + footer(r) + FOOT_T.replace('{{R}}', r)
+# ------------------------------------------------------------------ image pipeline
+WEBP = set()          # basenames of source images that have a .webp sibling
+WEBP_MIN = 0          # convert everything: a partial set breaks the gallery switcher
+
+def ensure_webp(force=False):
+    """Create .webp next to every source image. Runs once per build; skips fresh files."""
+    try:
+        from PIL import Image
+    except ImportError:
+        print('webp: Pillow not available, skipping')
+        return
+    d = ROOT + '/assets/img/'
+    made = skipped = 0
+    for fn in sorted(os.listdir(d)):
+        if not fn.lower().endswith(('.png', '.jpg', '.jpeg')):
+            continue
+        p = d + fn
+        try:
+            if os.path.getsize(p) < WEBP_MIN:
+                continue
+        except OSError:
+            continue
+        wp = os.path.splitext(p)[0] + '.webp'
+        if (not force) and os.path.exists(wp) and os.path.getmtime(wp) >= os.path.getmtime(p):
+            WEBP.add(fn); skipped += 1; continue
+        try:
+            im = Image.open(p)
+            im = im.convert('RGBA' if im.mode in ('RGBA', 'LA') or 'transparency' in im.info else 'RGB')
+            if max(im.size) > 1100:
+                im.thumbnail((1100, 1100), Image.LANCZOS)
+            im.save(wp, 'WEBP', quality=82, method=6)
+            WEBP.add(fn); made += 1
+        except Exception as e:
+            print('  webp skip', fn, e)
+    print(f'webp: {made} new, {skipped} cached, {len(WEBP)} usable')
+
+def pic(src, alt, r='', lazy=True, w=600, h=600, extra=''):
+    """Responsive-safe <picture> with WebP + original fallback."""
+    a = esc(alt)
+    load = 'lazy' if lazy else 'eager'
+    pr = '' if lazy else ' fetchpriority="high"'
+    orig = f'{r}assets/img/{src}'
+    if src in WEBP:
+        wb = f'{r}assets/img/{os.path.splitext(src)[0]}.webp'
+        return (f'<picture><source srcset="{wb}" type="image/webp">'
+                f'<img src="{orig}" alt="{a}" width="{w}" height="{h}" loading="{load}"{pr}{extra}></picture>')
+    return f'<img src="{orig}" alt="{a}" width="{w}" height="{h}" loading="{load}"{pr}{extra}>'
+
+def webp_src(src, r=''):
+    """Preferred single src for JS-driven gallery switching."""
+    if src in WEBP:
+        return f'{r}assets/img/{os.path.splitext(src)[0]}.webp'
+    return f'{r}assets/img/{src}'
+
+# ------------------------------------------------------------------ SEO helpers
+def ld(obj):
+    """Serialize a JSON-LD graph node into a safe <script> block."""
+    s = json.dumps(obj, ensure_ascii=False, separators=(',', ':'))
+    s = s.replace('</', '<\\/').replace('\u2028', ' ').replace('\u2029', ' ')
+    return '<script type="application/ld+json">' + s + '</script>'
+
+ORG = {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "@id": SITE + "#organization",
+    "name": COMPANY,
+    "url": SITE,
+    "logo": {"@type": "ImageObject", "url": LOGO_IMG},
+    "image": OG_IMAGE,
+    "description": "Manufacturer and exporter of portable air conditioners, dehumidifiers, humidifiers and air purifiers. OEM and ODM private label supply for importers, distributors and retail brands.",
+    "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "Factory House B, Changmingshui Industrial Park, Changyi Road, Wuguishan",
+        "addressLocality": "Zhongshan City",
+        "addressRegion": "Guangdong",
+        "postalCode": "528458",
+        "addressCountry": "CN",
+    },
+    "contactPoint": [
+        {"@type": "ContactPoint", "contactType": "sales", "name": "Carol Luo",
+         "jobTitle": "General Manager", "email": "carol.luo@focuseetech.com",
+         "telephone": "+86-133-7848-2598", "availableLanguage": ["en", "zh"]},
+        {"@type": "ContactPoint", "contactType": "sales", "name": "Robert Luo",
+         "jobTitle": "Marketing Manager", "email": "Marketing@focuseetech.com",
+         "telephone": "+86-134-2565-1968", "availableLanguage": ["en", "zh"]},
+    ],
+    "areaServed": ["Europe", "United Kingdom", "North America", "Australia", "New Zealand", "Middle East", "South East Asia"],
+    "knowsAbout": ["portable air conditioner", "dehumidifier", "air purifier", "R290 refrigerant", "OEM manufacturing"],
+}
+
+def org_ld():
+    website = {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "@id": SITE + "#website",
+        "url": SITE,
+        "name": COMPANY,
+        "publisher": {"@id": SITE + "#organization"},
+        "inLanguage": "en",
+    }
+    return ld(ORG) + '\n' + ld(website)
+
+def breadcrumb_ld(items):
+    """items: list of (name, url). Last one may have url=None."""
+    els = []
+    for i, (n, u) in enumerate(items):
+        node = {"@type": "ListItem", "position": i + 1, "name": n}
+        if u: node["item"] = u
+        els.append(node)
+    return ld({"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": els})
+
+def itemlist_ld(name, items):
+    els = []
+    for i, it in enumerate(items):
+        els.append({"@type": "ListItem", "position": i + 1,
+                    "name": it["name"], "url": SITE + it["url"]})
+    return ld({"@context": "https://schema.org", "@type": "ItemList",
+               "name": name, "numberOfItems": len(els), "itemListElement": els})
+
+def product_ld(p):
+    img = p['g'][0] if p.get('g') else 'logo.png'
+    imgs = [SITE + 'assets/img/' + i for i in p['g']] or [LOGO_IMG]
+    bl = [re.sub(r'\s+', ' ', b).strip(' ;,') for b in p.get('bullets', [])[:4]]
+    desc = (p.get('desc') or '; '.join(bl)
+            or f"{p['name']} {CATEGORY_WORD.get(p['cat'], 'unit')} from Focusee Company Limited")
+    node = {
+        "@context": "https://schema.org",
+        "@type": "Product",
+        "@id": SITE + 'product-' + p['slug'] + '.html#product',
+        "name": p['name'],
+        "description": str(desc)[:500],
+        "sku": p['name'],
+        "mpn": p['name'],
+        "category": CATEGORY_WORD.get(p['cat'], 'Portable air conditioner'),
+        "brand": {"@type": "Brand", "name": "Focusee"},
+        "manufacturer": {"@id": SITE + "#organization"},
+        "image": imgs,
+        "url": SITE + 'product-' + p['slug'] + '.html',
+        "offers": {
+            "@type": "Offer",
+            "url": SITE + 'product-' + p['slug'] + '.html',
+            "availability": "https://schema.org/InStock",
+            "itemCondition": "https://schema.org/NewCondition",
+            "priceCurrency": "USD",
+            "priceSpecification": {
+                "@type": "PriceSpecification",
+                "priceCurrency": "USD",
+                "valueAddedTaxIncluded": False,
+            },
+            "seller": {"@id": SITE + "#organization"},
+            "businessFunction": "https://schema.org/Sell",
+            "eligibleCustomerType": "https://schema.org/BusinessEntity",
+        },
+    }
+    if p.get('bullets'):
+        node["additionalProperty"] = [
+            {"@type": "PropertyValue", "name": "Key specification",
+             "value": re.sub(r'\s+', ' ', b).strip(' ;,')} for b in p['bullets'][:6]]
+    return ld(node)
+
+CATEGORY_WORD = {
+    'Portable Air Con.': 'Portable air conditioner',
+    'Dehumidifier': 'Dehumidifier',
+    'Air Purifier': 'Air purifier',
+    'Accessory': 'Air conditioner accessory',
+}
+
+def page(fname, title, desc, body, active='', r='', canon=None, ogt='website', ogi=None, jsonld='', path=None):
+    """path: URL path relative to SITE, e.g. 'products.html'. Used for canonical."""
+    if canon is None:
+        canon = SITE + (path or fname)
+    h = (HEAD_T.replace('{{T}}', esca(title))
+               .replace('{{D}}', esca(desc))
+               .replace('{{R}}', r)
+               .replace('{{CANON}}', esca(canon))
+               .replace('{{OGT}}', ogt)
+               .replace('{{OGI}}', esca(ogi or OG_IMAGE))
+               .replace('{{JSONLD}}', jsonld))
+    htmlout = h + header(active, r) + body + footer(r) + FOOT_T.replace('{{R}}', r)
     open(os.path.join(ROOT, fname), 'w', encoding='utf-8').write(htmlout)
     return fname
 
-def card(p, n, r=''):
+def alt_of(p, i=0):
+    """Descriptive alt text — plain words, no keyword stuffing."""
+    return f"{p['name']} {CATEGORY_WORD.get(p['cat'], 'portable air comfort unit').lower()}, view {i+1}"
+
+def card(p, n, r='', eager=False):
     g = gallery(p)
     img = g[0] if g else 'logo.png'
     txt = p.get('bullets', [])
     sub = txt[0] if txt else p.get('desc', '')[:70]
-    return f'''<a class="card" href="{r}product-{slug(p['name'])}.html">
+    return f'''<a class="card" href="{r}product-{slug(p['name'])}.html" data-cat="{CAT_SLUG.get(p['cat'],'')}">
   <div class="card-img"><span class="card-cat">{esc(p['cat'].replace('Portable Air Con.','Portable AC'))}</span>
-    <img src="{r}assets/img/{img}" alt="{esc(p['name'])}" loading="lazy"></div>
+    {pic(img, alt_of(p), r, lazy=not eager)}</div>
   <div class="card-body"><h3>{esc(p['name'])}</h3><p>{esc(sub)}</p>
     <span class="card-more">View details</span></div>
 </a>'''
@@ -218,7 +424,8 @@ def build_index():
     </div>
   </div>
   <div class="hero-visual">
-    <img src="assets/img/{DATA[3]['g'][0] if len(DATA)>3 and DATA[3]['g'] else 'logo.png'}" alt="FOCUSEE portable air conditioner">
+    {pic(DATA[3]['g'][0] if len(DATA) > 3 and DATA[3]['g'] else 'logo.png',
+         'Focusee portable air conditioner with WiFi app control', lazy=False, w=900, h=900)}
     <div class="hero-badge"><i>WiFi</i><div><b>Smart app control</b><span>Tuya eco-system &middot; 0&ndash;24H timer</span></div></div>
   </div>
 </div></section>
@@ -285,7 +492,7 @@ def build_index():
       <div style="margin-top:30px"><a class="btn btn-line" href="about.html">More about us</a></div>
     </div>
     <div class="split-visual">
-      <div class="frame"><img src="assets/img/{DATA[2]['g'][0]}" alt="Focusee portable air conditioner"></div>
+      <div class="frame">{pic(DATA[2]['g'][0], 'Focusee portable air conditioner with R290 refrigerant')}</div>
       <div class="float-card a"><b>R290 / R32</b><span>Low-GWP refrigerant</span></div>
       <div class="float-card b"><b>0&ndash;24H</b><span>Timer &amp; sleep mode</span></div>
     </div>
@@ -301,9 +508,46 @@ def build_index():
 
 {cta()}
 '''
-    return page('index.html', 'Focusee Company Limited | Portable Air Conditioners, Dehumidifiers & Air Purifiers',
-                'Focusee Company Limited manufactures portable air conditioners, dehumidifiers, air purifiers and accessories for importers and retail brands. OEM & ODM, R290 / R32, CE / GS certified.',
-                body, 'home')
+    # ---- FAQ (content + FAQPage rich result)
+    faqs = [
+        ('What is the minimum order quantity?',
+         'MOQ is quoted per model and is normally one 40&#8242;HQ container, mixed models accepted. The exact piece count is printed on every product page together with carton dimensions and 20&#8242; / 40&#8242;GP / 40&#8242;HQ loading quantities.'),
+        ('Do you supply OEM and private label?',
+         'Yes. We build to your brand: housing colour, control panel layout, logo placement, packaging artwork, manual language, plus voltage and plug configuration for your destination market.'),
+        ('Which certifications can you provide?',
+         'GS / CE for the EU and UK, ETL for North America, RoHS and REACH material documentation, and MEPS-ready models for Australia and New Zealand. Test reports are released with the order.'),
+        ('Which refrigerant do you use?',
+         'R290 and R32 low-GWP refrigerant, selected per model and per market regulation. Full refrigerant documentation is available for import clearance.'),
+        ('What is the lead time?',
+         'Typically 30 to 45 days after deposit and artwork approval, depending on model and season. Repeat orders of existing models are usually faster.'),
+        ('Can you ship mixed containers?',
+         'Yes. Portable air conditioners, dehumidifiers, air purifiers and accessories can be combined in one container, and we will work out the loading plan for you.'),
+    ]
+    faq_html = ''.join(
+        f'<details{" open" if i == 0 else ""}><summary>{q}</summary><div class="faq-a"><p>{a}</p></div></details>'
+        for i, (q, a) in enumerate(faqs))
+    body += f'''
+<section class="alt" id="faq">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow g">Buyer questions</span>
+      <h2>Frequently asked questions</h2>
+      <p>The six things importers ask us first &mdash; answered plainly.</p>
+    </div>
+    <div class="faq">{faq_html}</div>
+  </div>
+</section>
+'''
+    faq_ld = ld({"@context": "https://schema.org", "@type": "FAQPage",
+                 "mainEntity": [{"@type": "Question", "name": re.sub(r'<[^>]+>', '', q),
+                                 "acceptedAnswer": {"@type": "Answer",
+                                                    "text": re.sub(r'<[^>]+>', '', a).replace('&#8242;', "'")}}
+                                for q, a in faqs]})
+    return page('index.html',
+                'Focusee Company Limited | Portable Air Conditioner & Dehumidifier Manufacturer',
+                'Focusee Company Limited manufactures portable air conditioners, dehumidifiers, air purifiers and accessories for importers and retail brands. OEM & ODM, R290 / R32, CE / GS certified, MOQ and container loading published.',
+                body, 'home', canon=SITE,
+                jsonld=org_ld() + '\n' + faq_ld)
 
 # ------------------------------------------------------------------ PRODUCTS
 def build_products():
@@ -338,9 +582,12 @@ def build_products():
 
 {cta()}
 '''
+    items = [{'name': p['name'], 'url': 'product-' + p['slug'] + '.html'} for p in DATA]
     return page('products.html', f'Products | {len(DATA)} Portable Air Conditioners & Dehumidifiers — Focusee',
                 f'Browse {len(DATA)} portable air conditioners, dehumidifiers, air purifiers and accessories from Focusee Company Limited. Specifications, MOQ and container loading data included.',
-                body, 'products')
+                body, 'products',
+                jsonld=breadcrumb_ld([('Home', SITE), ('Products', None)]) + '\n'
+                       + itemlist_ld('Focusee portable air comfort catalogue', items))
 
 # ------------------------------------------------------------------ DETAIL
 def spec_tables(tables):
@@ -354,7 +601,12 @@ def spec_tables(tables):
 def build_detail(p):
     g = p['g']
     main = g[0] if g else 'logo.png'
-    thumbs = ''.join(f'<button class="{"on" if i==0 else ""}" data-src="assets/img/{im}"><img src="assets/img/{im}" alt="{esc(p["name"])} view {i+1}"></button>' for i, im in enumerate(g))
+    thumbs = ''
+    for i, im in enumerate(g):
+        wattr = ' data-webp="%s"' % webp_src(im) if im in WEBP else ''
+        on = ' class="on"' if i == 0 else ' class=""'
+        thumbs += ('<button%s data-src="assets/img/%s"%s>%s</button>'
+                   % (on, im, wattr, pic(im, alt_of(p, i), w=120, h=120)))
     bl = ''.join(f'<li>{esc(b)}</li>' for b in p['bullets'][:6])
     specs, funcs = spec_tables(p['tables'])
     spec_html = ''
@@ -409,7 +661,7 @@ def build_detail(p):
 
 <div class="wrap"><div class="pd-top">
   <div class="pd-gallery">
-    <div class="pd-main"><img id="pdmain" src="assets/img/{main}" alt="{esc(p['name'])}"></div>
+    <div class="pd-main">{pic(main, alt_of(p), lazy=False, w=900, h=900, extra=' id="pdmain"')}</div>
     <div class="pd-thumbs">{thumbs}</div>
   </div>
   <div class="pd-info">
@@ -445,10 +697,19 @@ def build_detail(p):
 
 {cta()}
 '''
+    word = CATEGORY_WORD.get(p['cat'], 'portable air comfort unit')
+    short = (p.get('desc') or '; '.join(re.sub(r'\s+', ' ', b).strip(' ;,') for b in p['bullets'][:3])).strip()
+    short = re.sub(r'\s+', ' ', short)[:150].rstrip(' ,;')
+    desc = (f'{p["name"]} {word} from Focusee Company Limited. {short}. '
+            f'Specification table, function list, MOQ and container loading data for OEM and private label orders.')
+    ogimg = SITE + 'assets/img/' + (g[0] if g else 'logo.png')
+    jsonld = (product_ld(p) + '\n'
+              + breadcrumb_ld([('Home', SITE), ('Products', SITE + 'products.html'),
+                               (p['cat'], SITE + 'products.html#' + CAT_SLUG.get(p['cat'], '')),
+                               (p['name'], None)]))
     return page(f'product-{p["slug"]}.html',
-                f'{p["name"]} | {p["cat"]} &mdash; Focusee Company Limited',
-                f'{p["name"]} {p["cat"]} from Focusee Company Limited. {p["desc"]}. Specifications, MOQ and container loading data.',
-                body)
+                f'{p["name"]} {word} | Focusee Company Limited',
+                desc, body, ogt='product', ogi=ogimg, jsonld=jsonld)
 
 # ------------------------------------------------------------------ ABOUT
 def build_about():
@@ -472,7 +733,7 @@ def build_about():
       </ul>
     </div>
     <div class="split-visual">
-      <div class="frame"><img src="assets/img/{DATA[0]['g'][0]}" alt="Focusee portable air conditioner"></div>
+      <div class="frame">{pic(DATA[0]['g'][0], 'Focusee portable dehumidifier on the production line')}</div>
       <div class="float-card a"><b>{len(DATA)}+</b><span>Models in catalogue</span></div>
       <div class="float-card b"><b>{len(CATS)}</b><span>Product families</span></div>
     </div>
@@ -530,7 +791,8 @@ def build_about():
 '''
     return page('about.html', 'About Us | Focusee Company Limited — Portable Air Comfort Manufacturer',
                 'Focusee Company Limited is a Zhongshan-based manufacturer of portable air conditioners, dehumidifiers and air purifiers, supplying importers, distributors and private-label brands worldwide.',
-                body, 'about')
+                body, 'about',
+                jsonld=breadcrumb_ld([('Home', SITE), ('About Us', None)]))
 
 # ------------------------------------------------------------------ CONTACT
 def build_contact():
@@ -574,9 +836,16 @@ def build_contact():
 
 {cta()}
 '''
+    contact_ld = ld({
+        "@context": "https://schema.org", "@type": "ContactPage",
+        "name": "Contact Focusee Company Limited",
+        "url": SITE + "contact.html",
+        "mainEntity": {"@id": SITE + "#organization"},
+    })
     return page('contact.html', 'Contact | Focusee Company Limited — Portable Air Conditioner Manufacturer',
                 'Contact Focusee Company Limited for portable air conditioner, dehumidifier and air purifier enquiries. Carol Luo, General Manager and Robert Luo, Marketing Manager.',
-                body, 'contact')
+                body, 'contact',
+                jsonld=breadcrumb_ld([('Home', SITE), ('Contact', None)]) + '\n' + contact_ld)
 
 # ------------------------------------------------------------------ JS
 JS = '''/* FOCUSEE site scripts */
@@ -610,13 +879,25 @@ JS = '''/* FOCUSEE site scripts */
     });
   }
 
-  /* product gallery */
+  /* product gallery — keeps <picture><source type=webp> in sync with <img> */
   var m=document.getElementById('pdmain');
   if(m){
+    var wrap=m.parentNode, sp=(wrap && wrap.tagName==='PICTURE') ? wrap.querySelector('source') : null;
     document.querySelectorAll('.pd-thumbs button').forEach(function(b){
       b.addEventListener('click',function(){
         document.querySelectorAll('.pd-thumbs button').forEach(function(x){x.classList.remove('on');});
         b.classList.add('on');
+        var w=b.getAttribute('data-webp');
+        if(sp){
+          if(w){
+            /* re-attach if a previous switch had to detach the webp source */
+            if(!sp.parentNode) wrap.insertBefore(sp, m);
+            sp.setAttribute('srcset', w);
+          } else if(sp.parentNode){
+            /* this image has no webp sibling: drop the source or the old one keeps winning */
+            sp.parentNode.removeChild(sp);
+          }
+        }
         m.src=b.dataset.src;
       });
     });
@@ -630,10 +911,126 @@ JS = '''/* FOCUSEE site scripts */
 })();
 '''
 
+# ------------------------------------------------------------------ 404
+def build_404():
+    body = f'''<section class="phead"><div class="wrap">
+  <h1>Page not found</h1>
+  <div class="crumb"><a href="index.html">Home</a><span class="sep">/</span><span>404</span></div>
+</div></section>
+<section><div class="wrap" style="text-align:center;padding:40px 0 60px">
+  <p style="font-size:17px;color:var(--muted);max-width:640px;margin:0 auto 28px">
+    That page does not exist. Start from the catalogue, or tell us what you are looking for and we will point you to the right model.
+  </p>
+  <div class="hero-actions" style="justify-content:center">
+    <a class="btn btn-grad" href="products.html">Browse all products</a>
+    <a class="btn btn-ghost" href="index.html">Back to home</a>
+  </div>
+</div></section>
+{cta()}
+'''
+    return page('404.html', 'Page Not Found | Focusee Company Limited',
+                'The page you were looking for does not exist. Browse the Focusee portable air conditioner and dehumidifier catalogue instead.',
+                body, '', jsonld=breadcrumb_ld([('Home', SITE), ('404', None)]))
+
+# ------------------------------------------------------------------ sitemap / robots
+def build_sitemap():
+    today = time.strftime('%Y-%m-%d')
+    urls = [('', '1.0', 'weekly'), ('products.html', '0.9', 'weekly'),
+            ('about.html', '0.6', 'monthly'), ('contact.html', '0.7', 'monthly')]
+    for p in DATA:
+        urls.append((f'product-{p["slug"]}.html', '0.8', 'monthly'))
+    out = ['<?xml version="1.0" encoding="UTF-8"?>',
+           '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">']
+    for u, pri, cf in urls:
+        out.append(f'  <url><loc>{SITE}{u}</loc><lastmod>{today}</lastmod>'
+                   f'<changefreq>{cf}</changefreq><priority>{pri}</priority></url>')
+    out.append('</urlset>')
+    open(ROOT + '/sitemap.xml', 'w', encoding='utf-8').write('\n'.join(out) + '\n')
+
+def build_robots():
+    txt = f'''User-agent: *
+Allow: /
+
+Sitemap: {SITE}sitemap.xml
+'''
+    open(ROOT + '/robots.txt', 'w', encoding='utf-8').write(txt)
+
+# ------------------------------------------------------------------ OG cover image
+def build_og_cover(force=False):
+    """1200x630 social share card. Rebuild only when missing (or force=True)."""
+    path = ROOT + '/assets/img/og-cover.jpg'
+    if os.path.exists(path) and not force:
+        return 'exists'
+    try:
+        from PIL import Image, ImageDraw, ImageFont
+        W, H = 1200, 630
+        im = Image.new('RGB', (W, H), (10, 58, 110))
+        d = ImageDraw.Draw(im)
+        # diagonal navy -> blue -> teal wash
+        c0, c1 = (9, 46, 92), (16, 110, 150)
+        for x in range(W):
+            t = x / W
+            col = tuple(int(c0[i] + (c1[i] - c0[i]) * t) for i in range(3))
+            d.line([(x, 0), (x, H)], fill=col)
+        # soft teal glow bottom-right
+        glow = Image.new('L', (W, H), 0)
+        gd = ImageDraw.Draw(glow)
+        gd.ellipse([W - 520, H - 420, W + 180, H + 160], fill=70)
+        glow = glow.filter(__import__('PIL.ImageFilter', fromlist=['ImageFilter']).GaussianBlur(90))
+        im = Image.composite(Image.new('RGB', (W, H), (23, 185, 138)), im, glow)
+        d = ImageDraw.Draw(im)
+
+        def font(sz, bold=False):
+            for p in ((r'C:\Windows\Fonts\seguisb.ttf' if bold else r'C:\Windows\Fonts\segoeui.ttf'),
+                      (r'C:\Windows\Fonts\arialbd.ttf' if bold else r'C:\Windows\Fonts\arial.ttf')):
+                if os.path.exists(p):
+                    try: return ImageFont.truetype(p, sz)
+                    except Exception: pass
+            return ImageFont.load_default()
+
+        def fit(text, maxw, start, bold=False, min_sz=20):
+            sz = start
+            while sz > min_sz:
+                f = font(sz, bold)
+                if d.textlength(text, font=f) <= maxw:
+                    return f
+                sz -= 2
+            return font(min_sz, bold)
+
+        # logo top-left
+        try:
+            lp = Image.open(ROOT + '/assets/img/logo.png').convert('RGB')
+            lp.thumbnail((400, 88))
+            im.paste(lp, (70, 62))
+        except Exception:
+            pass
+
+        M = 70
+        avail = W - M * 2
+        f1 = fit('Portable Air Conditioners', avail, 68, bold=True)
+        f2 = fit('Dehumidifiers  ·  Air Purifiers  ·  Accessories', avail, 34)
+        f3 = fit('OEM & ODM manufacturer  ·  R290 / R32  ·  CE / GS  ·  MEPS', avail, 26)
+        d.text((M, 214), 'Portable Air Conditioners', font=f1, fill=(255, 255, 255))
+        d.text((M, 312), 'Dehumidifiers  ·  Air Purifiers  ·  Accessories', font=f2, fill=(158, 232, 208))
+        d.text((M, 380), 'OEM & ODM manufacturer  ·  R290 / R32  ·  CE / GS  ·  MEPS', font=f3, fill=(203, 224, 244))
+        # accent rule
+        d.rectangle([M, 470, M + 110, 476], fill=(23, 185, 138))
+        f4 = fit('Focusee Company Limited  ·  Zhongshan, China  ·  focuseetech.com', avail, 26)
+        d.text((M, 508), 'Focusee Company Limited  ·  Zhongshan, China  ·  focuseetech.com',
+               font=f4, fill=(255, 255, 255))
+        im.save(path, 'JPEG', quality=88, optimize=True)
+        return 'created'
+    except Exception as e:
+        print('og cover skipped:', e)
+        return 'skipped'
+
 # ------------------------------------------------------------------ run
 os.makedirs(ROOT + '/assets/js', exist_ok=True)
+ensure_webp()          # must run before any page is rendered
 open(ROOT + '/assets/js/site.js','w',encoding='utf-8').write(JS)
-files = [build_index(), build_products(), build_about(), build_contact()]
+files = [build_index(), build_products(), build_about(), build_contact(), build_404()]
 for p in DATA:
     files.append(build_detail(p))
+build_sitemap(); build_robots()
+print('og cover:', build_og_cover())
 print('pages written:', len(files))
