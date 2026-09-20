@@ -164,6 +164,22 @@ def cta(r=''):
 # ------------------------------------------------------------------ image pipeline
 WEBP = set()          # basenames of source images that have a .webp sibling
 WEBP_MIN = 0          # convert everything: a partial set breaks the gallery switcher
+DIMS = {}             # basename -> (width, height) of the ORIGINAL image
+DIMS_FILE = ROOT + '/assets/img_dims.json'
+
+def load_dims():
+    """Real intrinsic sizes. Without them we must NOT emit width/height at all —
+    a guessed size acts as a real CSS presentational hint and inflates the box."""
+    if os.path.exists(DIMS_FILE):
+        try:
+            for k, v in json.load(open(DIMS_FILE, encoding='utf-8')).items():
+                DIMS[k] = tuple(v)
+        except Exception:
+            pass
+
+def save_dims():
+    json.dump({k: list(v) for k, v in DIMS.items()},
+              open(DIMS_FILE, 'w', encoding='utf-8'), ensure_ascii=False)
 
 def ensure_webp(force=False):
     """Create .webp next to every source image. Runs once per build; skips fresh files."""
@@ -185,9 +201,15 @@ def ensure_webp(force=False):
             continue
         wp = os.path.splitext(p)[0] + '.webp'
         if (not force) and os.path.exists(wp) and os.path.getmtime(wp) >= os.path.getmtime(p):
-            WEBP.add(fn); skipped += 1; continue
+            WEBP.add(fn); skipped += 1
+            if fn not in DIMS:          # cached webp, but size still unknown -> read header only
+                try:
+                    with Image.open(p) as im: DIMS[fn] = im.size
+                except Exception: pass
+            continue
         try:
             im = Image.open(p)
+            DIMS[fn] = im.size          # record before any resize
             im = im.convert('RGBA' if im.mode in ('RGBA', 'LA') or 'transparency' in im.info else 'RGB')
             if max(im.size) > 1100:
                 im.thumbnail((1100, 1100), Image.LANCZOS)
@@ -197,17 +219,23 @@ def ensure_webp(force=False):
             print('  webp skip', fn, e)
     print(f'webp: {made} new, {skipped} cached, {len(WEBP)} usable')
 
-def pic(src, alt, r='', lazy=True, w=600, h=600, extra=''):
+def dims(src):
+    """width/height attribute pair for an image, or '' when the real size is unknown."""
+    wh = DIMS.get(src)
+    return f' width="{wh[0]}" height="{wh[1]}"' if wh else ''
+
+def pic(src, alt, r='', lazy=True, extra=''):
     """Responsive-safe <picture> with WebP + original fallback."""
     a = esc(alt)
     load = 'lazy' if lazy else 'eager'
     pr = '' if lazy else ' fetchpriority="high"'
+    wh = dims(src)
     orig = f'{r}assets/img/{src}'
     if src in WEBP:
         wb = f'{r}assets/img/{os.path.splitext(src)[0]}.webp'
         return (f'<picture><source srcset="{wb}" type="image/webp">'
-                f'<img src="{orig}" alt="{a}" width="{w}" height="{h}" loading="{load}"{pr}{extra}></picture>')
-    return f'<img src="{orig}" alt="{a}" width="{w}" height="{h}" loading="{load}"{pr}{extra}>'
+                f'<img src="{orig}" alt="{a}"{wh} loading="{load}"{pr}{extra}></picture>')
+    return f'<img src="{orig}" alt="{a}"{wh} loading="{load}"{pr}{extra}>'
 
 def webp_src(src, r=''):
     """Preferred single src for JS-driven gallery switching."""
@@ -425,7 +453,7 @@ def build_index():
   </div>
   <div class="hero-visual">
     {pic(DATA[3]['g'][0] if len(DATA) > 3 and DATA[3]['g'] else 'logo.png',
-         'Focusee portable air conditioner with WiFi app control', lazy=False, w=900, h=900)}
+         'Focusee portable air conditioner with WiFi app control', lazy=False)}
     <div class="hero-badge"><i>WiFi</i><div><b>Smart app control</b><span>Tuya eco-system &middot; 0&ndash;24H timer</span></div></div>
   </div>
 </div></section>
@@ -606,7 +634,7 @@ def build_detail(p):
         wattr = ' data-webp="%s"' % webp_src(im) if im in WEBP else ''
         on = ' class="on"' if i == 0 else ' class=""'
         thumbs += ('<button%s data-src="assets/img/%s"%s>%s</button>'
-                   % (on, im, wattr, pic(im, alt_of(p, i), w=120, h=120)))
+                   % (on, im, wattr, pic(im, alt_of(p, i))))
     bl = ''.join(f'<li>{esc(b)}</li>' for b in p['bullets'][:6])
     specs, funcs = spec_tables(p['tables'])
     spec_html = ''
@@ -661,7 +689,7 @@ def build_detail(p):
 
 <div class="wrap"><div class="pd-top">
   <div class="pd-gallery">
-    <div class="pd-main">{pic(main, alt_of(p), lazy=False, w=900, h=900, extra=' id="pdmain"')}</div>
+    <div class="pd-main">{pic(main, alt_of(p), lazy=False, extra=' id="pdmain"')}</div>
     <div class="pd-thumbs">{thumbs}</div>
   </div>
   <div class="pd-info">
@@ -1026,7 +1054,9 @@ def build_og_cover(force=False):
 
 # ------------------------------------------------------------------ run
 os.makedirs(ROOT + '/assets/js', exist_ok=True)
+load_dims()            # real image sizes -> correct width/height attributes
 ensure_webp()          # must run before any page is rendered
+save_dims()
 open(ROOT + '/assets/js/site.js','w',encoding='utf-8').write(JS)
 files = [build_index(), build_products(), build_about(), build_contact(), build_404()]
 for p in DATA:
