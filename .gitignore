@@ -1,2 +1,5 @@
 _unused/
 *.log
+
+# Local Netlify folder
+.netlify
