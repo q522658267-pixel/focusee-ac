@@ -58,6 +58,8 @@ DNS（在域名商处配置，保持不变即可）：
 
 仓库根目录有 `CNAME` 文件（内容 `focuseetech.com`），**不要删除**，删了域名会解绑。
 
+根目录还有 `google267c8cc0b58c7c9f.html`（Google Search Console 所有权验证文件），**同样不要删除** —— Google 会定期复查，删了会把已验证的站点资源踢回未验证状态。
+
 更新流程：
 
 ```bash
