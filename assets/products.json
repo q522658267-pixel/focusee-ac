@@ -6354,9 +6354,9 @@
  {
   "name": "PCX12R-22MA",
   "cat": "Portable Air Con.",
-  "desc": "4,000 and 5,000 BTU water-assisted portable air conditioners with windowless operation, A+ energy class and 20–30 L/Day dehumidifying.",
+  "desc": "4,000 BTU water-assisted portable air conditioner with windowless operation, A+ energy class and 20 L/Day dehumidifying.",
   "bullets": [
-   "PCX12R-22MA: 4,000 BTU · PCX15R-22MA: 5,000 BTU",
+   "PCX12R-22MA: 4,000 BTU",
    "Cooling by compressor and water both · 20–30 L/Day dehumidifying",
    "MOQ: 20’FT*1 (mixed models)"
   ],
@@ -6371,82 +6371,66 @@
     ],
     [
      "Model (GS/CE)",
-     "PCX12R-22MA",
-     "PCX15R-22MA"
+     "PCX12R-22MA"
     ],
     [
      "Cooling Capacity (W) / BTU",
-     "1,200 W (4,000 BTU)",
-     "1,500 W (5,000 BTU)"
+     "1,200 W (4,000 BTU)"
     ],
     [
      "Cooling Power (equivalent)",
-     "Similar to 3,500 W (12,000 BTU)",
-     "Similar to 4,000 W (14,000 BTU)"
+     "Similar to 3,500 W (12,000 BTU)"
     ],
     [
      "Cooling Power Input (W)",
-     "360 (max. 460)",
-     "480 (max. 620)"
+     "360 (max. 460)"
     ],
     [
      "Cooling Current Input (A)",
-     "1.57 (max. 2.00)",
-     "2.09 (max. 2.70)"
+     "1.57 (max. 2.00)"
     ],
     [
      "Dehumidifying Capacity (L/Day)",
-     "20",
-     "30"
+     "20"
     ],
     [
      "Cold Air Temperature Drop (°C)",
-     "10–16",
      "10–16"
     ],
     [
      "Operating Ambient Temperature (°C)",
-     "5–45",
      "5–45"
     ],
     [
      "Air Flow Volume (m³/h)",
-     "180",
-     "220"
+     "180"
     ],
     [
      "Noise – Sound Power (dB(A))",
-     "38–46",
-     "38–48"
+     "38–46"
     ],
     [
      "Noise – Sound Pressure (dB(A))",
-     "54–60",
-     "56–62"
+     "54–60"
     ],
     [
      "Compressor",
-     "Reciprocating or rotary type",
      "Reciprocating or rotary type"
     ],
     [
      "Refrigerant",
-     "R290",
      "R290"
     ],
     [
      "Voltage / Frequency",
-     "220–240 V / 50 Hz",
      "220–240 V / 50 Hz"
     ],
     [
      "Standard Colours",
-     "White / Black",
      "White / Black"
     ],
     [
      "Energy Class (water + hose)",
-     "Class A+, 3.2 W/W",
      "Class A+, 3.2 W/W"
     ],
     [
@@ -6454,22 +6438,18 @@
     ],
     [
      "Product Dimension (H×W×D, mm)",
-     "600 × 250 × 336",
      "600 × 250 × 336"
     ],
     [
      "Packaging Dimension (H×W×D, mm)",
-     "668 × 306 × 388",
      "668 × 306 × 388"
     ],
     [
      "N.W / G.W (kg)",
-     "14 / 16",
-     "14.5 / 16.5"
+     "14 / 16"
     ],
     [
      "Container Loading (20'FT / 40'GP / 40'HQ)",
-     "320 / 645 / 860",
      "320 / 645 / 860"
     ]
    ],
@@ -6616,6 +6596,261 @@
   "prev": {
    "name": "PCX5R-18MD",
    "slug": "pcx5r-18md"
+  },
+  "next": {
+   "name": "PCX15R-22MA",
+   "slug": "pcx15r-22ma"
+  },
+  "g": [
+   "pcx12r-22ma.jpg",
+   "pcx12r-22ma-2.jpg"
+  ]
+ },
+ {
+  "name": "PCX15R-22MA",
+  "cat": "Portable Air Con.",
+  "desc": "5,000 BTU water-assisted portable air conditioner with windowless operation, A+ energy class and 30 L/Day dehumidifying.",
+  "bullets": [
+   "PCX15R-22MA: 5,000 BTU",
+   "Cooling by compressor and water both · 20–30 L/Day dehumidifying",
+   "MOQ: 20’FT*1 (mixed models)"
+  ],
+  "thumb": "pcx12r-22ma.jpg",
+  "thumbs": [
+   "pcx12r-22ma-2.jpg"
+  ],
+  "tables": [
+   [
+    [
+     "PCX15R-22MA"
+    ],
+    [
+     "Model (GS/CE)",
+     "PCX15R-22MA"
+    ],
+    [
+     "Cooling Capacity (W) / BTU",
+     "1,500 W (5,000 BTU)"
+    ],
+    [
+     "Cooling Power (equivalent)",
+     "Similar to 4,000 W (14,000 BTU)"
+    ],
+    [
+     "Cooling Power Input (W)",
+     "480 (max. 620)"
+    ],
+    [
+     "Cooling Current Input (A)",
+     "2.09 (max. 2.70)"
+    ],
+    [
+     "Dehumidifying Capacity (L/Day)",
+     "30"
+    ],
+    [
+     "Cold Air Temperature Drop (°C)",
+     "10–16"
+    ],
+    [
+     "Operating Ambient Temperature (°C)",
+     "5–45"
+    ],
+    [
+     "Air Flow Volume (m³/h)",
+     "220"
+    ],
+    [
+     "Noise – Sound Power (dB(A))",
+     "38–48"
+    ],
+    [
+     "Noise – Sound Pressure (dB(A))",
+     "56–62"
+    ],
+    [
+     "Compressor",
+     "Reciprocating or rotary type"
+    ],
+    [
+     "Refrigerant",
+     "R290"
+    ],
+    [
+     "Voltage / Frequency",
+     "220–240 V / 50 Hz"
+    ],
+    [
+     "Standard Colours",
+     "White / Black"
+    ],
+    [
+     "Energy Class (water + hose)",
+     "Class A+, 3.2 W/W"
+    ],
+    [
+     "Logistic Data"
+    ],
+    [
+     "Product Dimension (H×W×D, mm)",
+     "600 × 250 × 336"
+    ],
+    [
+     "Packaging Dimension (H×W×D, mm)",
+     "668 × 306 × 388"
+    ],
+    [
+     "N.W / G.W (kg)",
+     "14.5 / 16.5"
+    ],
+    [
+     "Container Loading (20'FT / 40'GP / 40'HQ)",
+     "320 / 645 / 860"
+    ]
+   ],
+   [
+    [
+     "Electronic Panel",
+     "YES"
+    ],
+    [
+     "ECO mode (compressor + water cooling)",
+     "YES"
+    ],
+    [
+     "Full-colour giftbox (orders below 2x40'HQ per model)",
+     "Optional"
+    ],
+    [
+     "Extra manual languages (beyond 3)",
+     "Optional"
+    ],
+    [
+     "Remote Control",
+     "YES"
+    ],
+    [
+     "Exhaust pipe",
+     "NO"
+    ],
+    [
+     "Window adaptor",
+     "NO"
+    ],
+    [
+     "External drainage water tray",
+     "YES"
+    ],
+    [
+     "Drain water pipe",
+     "NO"
+    ],
+    [
+     "Auto-restart",
+     "YES"
+    ],
+    [
+     "Protective film for transport",
+     "YES"
+    ],
+    [
+     "Quiet operation",
+     "YES"
+    ],
+    [
+     "Auto operation",
+     "YES"
+    ],
+    [
+     "Fan speed adjustable 3 steps and sleep",
+     "YES"
+    ],
+    [
+     "Auto vertical air louvers",
+     "YES"
+    ],
+    [
+     "Manual horizontal air louvers",
+     "YES"
+    ],
+    [
+     "Casters",
+     "YES"
+    ],
+    [
+     "Auto Diagnosis",
+     "YES"
+    ],
+    [
+     "Dust filter",
+     "YES"
+    ],
+    [
+     "Error display and protection",
+     "YES"
+    ],
+    [
+     "Flexible wiring connection",
+     "NO"
+    ],
+    [
+     "Defrosting",
+     "YES"
+    ],
+    [
+     "Low-voltage start-up",
+     "YES"
+    ],
+    [
+     "Independent Dehumidification",
+     "YES"
+    ],
+    [
+     "Energy-saving sleep mode",
+     "YES"
+    ],
+    [
+     "Two-direction airflow",
+     "YES"
+    ],
+    [
+     "ON timer",
+     "YES, 1-24 hours"
+    ],
+    [
+     "OFF timer",
+     "YES, 1-24 hours"
+    ],
+    [
+     "WiFi (TUYA module)",
+     "Optional"
+    ],
+    [
+     "Exhaust hose + adaptors, without window kit",
+     "Optional"
+    ],
+    [
+     "Exhaust hose + adaptors, with window kit",
+     "Optional"
+    ],
+    [
+     "Oil-smoke filter (kitchen use)",
+     "Optional"
+    ],
+    [
+     "Plasma air-purifying module",
+     "Optional"
+    ],
+    [
+     "Outer 2nd carton box",
+     "Optional"
+    ]
+   ]
+  ],
+  "slug": "pcx15r-22ma",
+  "prev": {
+   "name": "PCX12R-22MA",
+   "slug": "pcx12r-22ma"
   },
   "next": {
    "name": "PC20S-22MA",
@@ -6873,8 +7108,8 @@
   ],
   "slug": "pc20s-22ma",
   "prev": {
-   "name": "PCX12R-22MA",
-   "slug": "pcx12r-22ma"
+   "name": "PCX15R-22MA",
+   "slug": "pcx15r-22ma"
   },
   "next": {
    "name": "PC70R-MMA",
