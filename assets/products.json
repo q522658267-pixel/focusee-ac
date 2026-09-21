@@ -5636,15 +5636,12 @@
   "cat": "Portable Air Con.",
   "desc": "Three casing options on one 1,800 BTU platform — windowless evaporative-assisted cooling for counters, kiosks and small rooms.",
   "bullets": [
-   "PCX5R-18MA / 18MB / 18MD: 1,800 BTU · 500 W",
+   "PCX5R-18MA: 1,800 BTU · 500 W",
    "Cooling by compressor and water both · 15 L/Day dehumidifying",
    "MOQ: 20’FT*1 (mixed models)"
   ],
   "thumb": "pcx5r-18ma.jpg",
-  "thumbs": [
-   "pcx5r-18mb.jpg",
-   "pcx5r-18md.jpg"
-  ],
+  "thumbs": [],
   "tables": [
    [
     [
@@ -5652,7 +5649,7 @@
     ],
     [
      "Model (GS/CE)",
-     "PCX5R-18MA / PCX5R-18MB / PCX5R-18MD"
+     "PCX5R-18MA"
     ],
     [
      "Cooling Capacity (W) / BTU",
@@ -5867,12 +5864,490 @@
    "slug": "pc-fma"
   },
   "next": {
+   "name": "PCX5R-18MB",
+   "slug": "pcx5r-18mb"
+  },
+  "g": [
+   "pcx5r-18ma.jpg"
+  ]
+ },
+ {
+  "name": "PCX5R-18MB",
+  "cat": "Portable Air Con.",
+  "desc": "Three casing options on one 1,800 BTU platform — windowless evaporative-assisted cooling for counters, kiosks and small rooms.",
+  "bullets": [
+   "PCX5R-18MB: 1,800 BTU · 500 W",
+   "Cooling by compressor and water both · 15 L/Day dehumidifying",
+   "MOQ: 20’FT*1 (mixed models)"
+  ],
+  "thumb": "pcx5r-18mb.jpg",
+  "thumbs": [],
+  "tables": [
+   [
+    [
+     "PCX5R-18MB"
+    ],
+    [
+     "Model (GS/CE)",
+     "PCX5R-18MB"
+    ],
+    [
+     "Cooling Capacity (W) / BTU",
+     "500 W (1,800 BTU)"
+    ],
+    [
+     "Cooling Power Input (W)",
+     "200 (max. 300)"
+    ],
+    [
+     "Cooling Current Input (A)",
+     "0.87 (max. 1.30)"
+    ],
+    [
+     "Dehumidifying Capacity (L/Day)",
+     "15"
+    ],
+    [
+     "Cold Air Temperature Drop (°C)",
+     "10–14"
+    ],
+    [
+     "Operating Ambient Temperature (°C)",
+     "5–45"
+    ],
+    [
+     "Air Flow Volume (m³/h)",
+     "120"
+    ],
+    [
+     "Noise – Sound Power (dB(A))",
+     "38–44"
+    ],
+    [
+     "Noise – Sound Pressure (dB(A))",
+     "54–58"
+    ],
+    [
+     "Compressor",
+     "Reciprocating type"
+    ],
+    [
+     "Refrigerant",
+     "R290"
+    ],
+    [
+     "Voltage / Frequency",
+     "220–240 V / 50 Hz"
+    ],
+    [
+     "Standard Colours",
+     "White / Black / Grey"
+    ],
+    [
+     "Logistic Data"
+    ],
+    [
+     "Product Dimension (H×W×D, mm)",
+     "550 × 215 × 335"
+    ],
+    [
+     "Packaging Dimension (H×W×D, mm)",
+     "655 × 267 × 387"
+    ],
+    [
+     "N.W / G.W (kg)",
+     "12.8 / 14.2"
+    ],
+    [
+     "Container Loading (20'FT / 40'GP / 40'HQ)",
+     "378 / 792 / 1,056"
+    ]
+   ],
+   [
+    [
+     "Electronic Panel",
+     "YES"
+    ],
+    [
+     "ECO mode (compressor + water cooling)",
+     "YES"
+    ],
+    [
+     "Full-colour giftbox (orders below 1,000 pcs per model)",
+     "YES"
+    ],
+    [
+     "Extra manual languages (beyond 3)",
+     "Optional"
+    ],
+    [
+     "Remote Control",
+     "YES"
+    ],
+    [
+     "Exhaust pipe",
+     "NO"
+    ],
+    [
+     "Window adaptor",
+     "NO"
+    ],
+    [
+     "External drainage water tray",
+     "YES"
+    ],
+    [
+     "Drain water pipe",
+     "NO"
+    ],
+    [
+     "Auto-restart",
+     "YES"
+    ],
+    [
+     "Protective film for transport",
+     "YES"
+    ],
+    [
+     "Quiet operation",
+     "YES"
+    ],
+    [
+     "Auto operation",
+     "YES"
+    ],
+    [
+     "Fan speed adjustable 3 steps and sleep",
+     "YES"
+    ],
+    [
+     "Auto vertical air louvers",
+     "YES"
+    ],
+    [
+     "Manual horizontal air louvers",
+     "YES"
+    ],
+    [
+     "Casters",
+     "YES"
+    ],
+    [
+     "Auto Diagnosis",
+     "YES"
+    ],
+    [
+     "Dust filter",
+     "YES"
+    ],
+    [
+     "Error display and protection",
+     "YES"
+    ],
+    [
+     "Flexible wiring connection",
+     "NO"
+    ],
+    [
+     "Defrosting",
+     "YES"
+    ],
+    [
+     "Low-voltage start-up",
+     "YES"
+    ],
+    [
+     "Independent Dehumidification",
+     "YES"
+    ],
+    [
+     "Energy-saving sleep mode",
+     "YES"
+    ],
+    [
+     "Two-direction airflow",
+     "YES"
+    ],
+    [
+     "ON timer",
+     "YES, 1-24 hours"
+    ],
+    [
+     "OFF timer",
+     "YES, 1-24 hours"
+    ],
+    [
+     "WiFi (TUYA module)",
+     "Optional"
+    ],
+    [
+     "Exhaust hose + adaptors (vent humid air outdoors)",
+     "Optional"
+    ],
+    [
+     "Oil-smoke filter (kitchen use)",
+     "Optional"
+    ],
+    [
+     "Plasma air-purifying module",
+     "Optional"
+    ],
+    [
+     "Outer 2nd carton box",
+     "Optional"
+    ]
+   ]
+  ],
+  "slug": "pcx5r-18mb",
+  "prev": {
+   "name": "PCX5R-18MA",
+   "slug": "pcx5r-18ma"
+  },
+  "next": {
+   "name": "PCX5R-18MD",
+   "slug": "pcx5r-18md"
+  },
+  "g": [
+   "pcx5r-18mb.jpg"
+  ]
+ },
+ {
+  "name": "PCX5R-18MD",
+  "cat": "Portable Air Con.",
+  "desc": "Three casing options on one 1,800 BTU platform — windowless evaporative-assisted cooling for counters, kiosks and small rooms.",
+  "bullets": [
+   "PCX5R-18MD: 1,800 BTU · 500 W",
+   "Cooling by compressor and water both · 15 L/Day dehumidifying",
+   "MOQ: 20’FT*1 (mixed models)"
+  ],
+  "thumb": "pcx5r-18md.jpg",
+  "thumbs": [],
+  "tables": [
+   [
+    [
+     "PCX5R-18MD"
+    ],
+    [
+     "Model (GS/CE)",
+     "PCX5R-18MD"
+    ],
+    [
+     "Cooling Capacity (W) / BTU",
+     "500 W (1,800 BTU)"
+    ],
+    [
+     "Cooling Power Input (W)",
+     "200 (max. 300)"
+    ],
+    [
+     "Cooling Current Input (A)",
+     "0.87 (max. 1.30)"
+    ],
+    [
+     "Dehumidifying Capacity (L/Day)",
+     "15"
+    ],
+    [
+     "Cold Air Temperature Drop (°C)",
+     "10–14"
+    ],
+    [
+     "Operating Ambient Temperature (°C)",
+     "5–45"
+    ],
+    [
+     "Air Flow Volume (m³/h)",
+     "120"
+    ],
+    [
+     "Noise – Sound Power (dB(A))",
+     "38–44"
+    ],
+    [
+     "Noise – Sound Pressure (dB(A))",
+     "54–58"
+    ],
+    [
+     "Compressor",
+     "Reciprocating type"
+    ],
+    [
+     "Refrigerant",
+     "R290"
+    ],
+    [
+     "Voltage / Frequency",
+     "220–240 V / 50 Hz"
+    ],
+    [
+     "Standard Colours",
+     "White / Black / Grey"
+    ],
+    [
+     "Logistic Data"
+    ],
+    [
+     "Product Dimension (H×W×D, mm)",
+     "550 × 215 × 335"
+    ],
+    [
+     "Packaging Dimension (H×W×D, mm)",
+     "655 × 267 × 387"
+    ],
+    [
+     "N.W / G.W (kg)",
+     "12.8 / 14.2"
+    ],
+    [
+     "Container Loading (20'FT / 40'GP / 40'HQ)",
+     "378 / 792 / 1,056"
+    ]
+   ],
+   [
+    [
+     "Electronic Panel",
+     "YES"
+    ],
+    [
+     "ECO mode (compressor + water cooling)",
+     "YES"
+    ],
+    [
+     "Full-colour giftbox (orders below 1,000 pcs per model)",
+     "YES"
+    ],
+    [
+     "Extra manual languages (beyond 3)",
+     "Optional"
+    ],
+    [
+     "Remote Control",
+     "YES"
+    ],
+    [
+     "Exhaust pipe",
+     "NO"
+    ],
+    [
+     "Window adaptor",
+     "NO"
+    ],
+    [
+     "External drainage water tray",
+     "YES"
+    ],
+    [
+     "Drain water pipe",
+     "NO"
+    ],
+    [
+     "Auto-restart",
+     "YES"
+    ],
+    [
+     "Protective film for transport",
+     "YES"
+    ],
+    [
+     "Quiet operation",
+     "YES"
+    ],
+    [
+     "Auto operation",
+     "YES"
+    ],
+    [
+     "Fan speed adjustable 3 steps and sleep",
+     "YES"
+    ],
+    [
+     "Auto vertical air louvers",
+     "YES"
+    ],
+    [
+     "Manual horizontal air louvers",
+     "YES"
+    ],
+    [
+     "Casters",
+     "YES"
+    ],
+    [
+     "Auto Diagnosis",
+     "YES"
+    ],
+    [
+     "Dust filter",
+     "YES"
+    ],
+    [
+     "Error display and protection",
+     "YES"
+    ],
+    [
+     "Flexible wiring connection",
+     "NO"
+    ],
+    [
+     "Defrosting",
+     "YES"
+    ],
+    [
+     "Low-voltage start-up",
+     "YES"
+    ],
+    [
+     "Independent Dehumidification",
+     "YES"
+    ],
+    [
+     "Energy-saving sleep mode",
+     "YES"
+    ],
+    [
+     "Two-direction airflow",
+     "YES"
+    ],
+    [
+     "ON timer",
+     "YES, 1-24 hours"
+    ],
+    [
+     "OFF timer",
+     "YES, 1-24 hours"
+    ],
+    [
+     "WiFi (TUYA module)",
+     "Optional"
+    ],
+    [
+     "Exhaust hose + adaptors (vent humid air outdoors)",
+     "Optional"
+    ],
+    [
+     "Oil-smoke filter (kitchen use)",
+     "Optional"
+    ],
+    [
+     "Plasma air-purifying module",
+     "Optional"
+    ],
+    [
+     "Outer 2nd carton box",
+     "Optional"
+    ]
+   ]
+  ],
+  "slug": "pcx5r-18md",
+  "prev": {
+   "name": "PCX5R-18MB",
+   "slug": "pcx5r-18mb"
+  },
+  "next": {
    "name": "PCX12R-22MA",
    "slug": "pcx12r-22ma"
   },
   "g": [
-   "pcx5r-18ma.jpg",
-   "pcx5r-18mb.jpg",
    "pcx5r-18md.jpg"
   ]
  },
@@ -6139,8 +6614,8 @@
   ],
   "slug": "pcx12r-22ma",
   "prev": {
-   "name": "PCX5R-18MA",
-   "slug": "pcx5r-18ma"
+   "name": "PCX5R-18MD",
+   "slug": "pcx5r-18md"
   },
   "next": {
    "name": "PC20S-22MA",
