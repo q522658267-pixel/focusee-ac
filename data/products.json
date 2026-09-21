@@ -9832,9 +9832,9 @@
   {
     "name": "PC70R-MMA",
     "cat": "Portable Air Con.",
-    "desc": "24,000 and 30,000 BTU high-capacity portable air conditioners for large halls, tents and industrial spots — 950 m³/h airflow, 12 m throw.",
+    "desc": "24,000 BTU (7.0 kW) high-capacity portable air conditioner for large halls, tents and industrial spots — 950 m³/h airflow, 12 m throw.",
     "bullets": [
-      "PC70R-MMA: 24,000 BTU (7.0 kW) · PC90R-MMA: 30,000 BTU (9.0 kW)",
+      "PC70R-MMA: 24,000 BTU (7.0 kW)",
       "High-capacity spot cooling · 950 m³/h · 12 m air throw",
       "MOQ: 40’HQ*1"
     ],
@@ -9849,87 +9849,70 @@
         ],
         [
           "Model (GS/CE)",
-          "PC70R-MMA",
-          "PC90R-MMA"
+          "PC70R-MMA"
         ],
         [
           "Cooling Capacity (kW)",
-          "7.0",
-          "9.0"
+          "7.0"
         ],
         [
           "Cooling Capacity (BTU)",
-          "24,000",
-          "30,000"
+          "24,000"
         ],
         [
           "Cooling Power Input (W)",
-          "2,500",
-          "2,800"
+          "2,500"
         ],
         [
           "Cooling Current Input (A)",
-          "11.4",
-          "12.7"
+          "11.4"
         ],
         [
           "Measured EER",
-          "2.6",
           "2.6"
         ],
         [
           "EER Energy Class (35/24°C)",
-          "Class A",
           "Class A"
         ],
         [
           "Annual Energy Consumption (kWh)",
-          "1,250",
-          "1,400"
+          "1,250"
         ],
         [
           "Dehumidifying Capacity (L/Day)",
-          "110",
-          "120"
+          "110"
         ],
         [
           "Thermostat Range (°C)",
-          "17–35",
           "17–35"
         ],
         [
           "Air Flow Volume (m³/h)",
-          "950",
           "950"
         ],
         [
           "Air Flow Distance (m)",
-          "12",
           "12"
         ],
         [
           "Noise – Sound Power, Low/Mid/High (dB(A))",
-          "52 / 55 / 58",
           "52 / 55 / 58"
         ],
         [
           "Rotary Compressor",
-          "Rechi or Toshiba",
           "Rechi or Toshiba"
         ],
         [
           "Refrigerant",
-          "R410a or R290",
           "R410a or R290"
         ],
         [
           "Voltage / Frequency",
-          "220 V / 50 or 60 Hz",
           "220 V / 50 or 60 Hz"
         ],
         [
           "Standard Colours",
-          "White / Black / Grey",
           "White / Black / Grey"
         ],
         [
@@ -9937,22 +9920,232 @@
         ],
         [
           "Product Dimension (W×D×H, mm)",
-          "540 × 695 × 1,140",
           "540 × 695 × 1,140"
         ],
         [
           "Packaging Dimension (W×D×H, mm)",
-          "590 × 780 × 1,310",
           "590 × 780 × 1,310"
         ],
         [
           "N.W / G.W (kg)",
-          "65 / 70",
+          "65 / 70"
+        ],
+        [
+          "Container Loading (20'FT)",
+          "119"
+        ]
+      ],
+      [
+        [
+          "Electronic Panel",
+          "YES"
+        ],
+        [
+          "Warranty card",
+          "YES"
+        ],
+        [
+          "Standard remote control",
+          "YES"
+        ],
+        [
+          "Exhaust pipe",
+          "Diameter 200mm *Length 1.5m"
+        ],
+        [
+          "Longer exhaust pipe (2 m / 3 m / 4 m, packed separately)",
+          "Optional"
+        ],
+        [
+          "Sliding-window adaptor (3 pcs/set)",
+          "Optional"
+        ],
+        [
+          "Cold-air outlet adaptor (vent indoors, or into equipment)",
+          "Optional"
+        ],
+        [
+          "Dual-hose kit (whole-room cooling)",
+          "Optional"
+        ],
+        [
+          "Drain water pipe",
+          "Optional"
+        ],
+        [
+          "Quiet operation",
+          "YES"
+        ],
+        [
+          "Auto operation",
+          "YES"
+        ],
+        [
+          "Fan speed adjustable (3 steps)",
+          "YES"
+        ],
+        [
+          "Auto vertical air louvers",
+          "Optional"
+        ],
+        [
+          "Manual horizontal air louvers",
+          "YES"
+        ],
+        [
+          "Casters",
+          "YES"
+        ],
+        [
+          "Auto Diagnosis",
+          "YES"
+        ],
+        [
+          "Dust filter",
+          "YES"
+        ],
+        [
+          "Error display and protection",
+          "YES"
+        ],
+        [
+          "Flexible wiring connection",
+          "NO"
+        ],
+        [
+          "Defrosting",
+          "YES"
+        ],
+        [
+          "Low-voltage start-up",
+          "YES"
+        ],
+        [
+          "Independent Dehumidification",
+          "YES"
+        ],
+        [
+          "Auto-restart",
+          "Optional"
+        ],
+        [
+          "Energy-saving sleep mode",
+          "YES"
+        ],
+        [
+          "ON timer",
+          "YES"
+        ],
+        [
+          "OFF timer",
+          "YES"
+        ]
+      ]
+    ]
+  },
+  {
+    "name": "PC90R-MMA",
+    "cat": "Portable Air Con.",
+    "desc": "30,000 BTU (9.0 kW) high-capacity portable air conditioner for large halls, tents and industrial spots — 950 m³/h airflow, 12 m throw.",
+    "bullets": [
+      "PC90R-MMA: 30,000 BTU (9.0 kW)",
+      "High-capacity spot cooling · 950 m³/h · 12 m air throw",
+      "MOQ: 40’HQ*1"
+    ],
+    "thumb": "pc70r-mma.jpg",
+    "thumbs": [
+      "pc70r-mma-2.jpg"
+    ],
+    "tables": [
+      [
+        [
+          "PC90R-MMA"
+        ],
+        [
+          "Model (GS/CE)",
+          "PC90R-MMA"
+        ],
+        [
+          "Cooling Capacity (kW)",
+          "9.0"
+        ],
+        [
+          "Cooling Capacity (BTU)",
+          "30,000"
+        ],
+        [
+          "Cooling Power Input (W)",
+          "2,800"
+        ],
+        [
+          "Cooling Current Input (A)",
+          "12.7"
+        ],
+        [
+          "Measured EER",
+          "2.6"
+        ],
+        [
+          "EER Energy Class (35/24°C)",
+          "Class A"
+        ],
+        [
+          "Annual Energy Consumption (kWh)",
+          "1,400"
+        ],
+        [
+          "Dehumidifying Capacity (L/Day)",
+          "120"
+        ],
+        [
+          "Thermostat Range (°C)",
+          "17–35"
+        ],
+        [
+          "Air Flow Volume (m³/h)",
+          "950"
+        ],
+        [
+          "Air Flow Distance (m)",
+          "12"
+        ],
+        [
+          "Noise – Sound Power, Low/Mid/High (dB(A))",
+          "52 / 55 / 58"
+        ],
+        [
+          "Rotary Compressor",
+          "Rechi or Toshiba"
+        ],
+        [
+          "Refrigerant",
+          "R410a or R290"
+        ],
+        [
+          "Voltage / Frequency",
+          "220 V / 50 or 60 Hz"
+        ],
+        [
+          "Standard Colours",
+          "White / Black / Grey"
+        ],
+        [
+          "Logistic Data"
+        ],
+        [
+          "Product Dimension (W×D×H, mm)",
+          "540 × 695 × 1,140"
+        ],
+        [
+          "Packaging Dimension (W×D×H, mm)",
+          "590 × 780 × 1,310"
+        ],
+        [
+          "N.W / G.W (kg)",
           "68 / 73"
         ],
         [
           "Container Loading (20'FT)",
-          "119",
           "119"
         ]
       ],
