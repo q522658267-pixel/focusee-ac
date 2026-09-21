@@ -154,7 +154,7 @@ section{padding:88px 0}
 .card:hover{transform:translateY(-6px);box-shadow:var(--shadow);border-color:#C9DCF1}
 .card-img{position:relative;background:linear-gradient(180deg,#F7FAFE,#EDF4FB);padding:26px;aspect-ratio:1/1;
   display:flex;align-items:center;justify-content:center}
-.card-img img{max-height:100%;width:auto;object-fit:contain;transition:.4s}
+.card-img img{display:block;width:100%;aspect-ratio:1/1;object-fit:cover;transition:.4s}
 .card:hover .card-img img{transform:scale(1.06)}
 .card-cat{position:absolute;top:12px;left:12px;background:rgba(255,255,255,.94);border:1px solid var(--line);
   color:var(--muted);font-size:10.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
@@ -287,14 +287,14 @@ footer{background:#05192F;color:#93AECB;font-size:13.5px;padding:70px 0 0}
 .pd-top{display:grid;grid-template-columns:1.02fr .98fr;gap:56px;align-items:flex-start;padding:60px 0 40px}
 .pd-gallery{position:sticky;top:100px}
 .pd-main{border:1px solid var(--line);border-radius:var(--r);background:linear-gradient(180deg,#F8FBFF,#EDF4FB);
-  padding:36px;aspect-ratio:1/1;display:flex;align-items:center;justify-content:center}
-.pd-main img{max-height:100%;width:auto;object-fit:contain}
+  padding:36px;aspect-ratio:1/1;display:flex;align-items:center;justify-content:center;position:relative}
+.pd-main img{display:block;width:100%;aspect-ratio:1/1;object-fit:cover}
 .pd-thumbs{display:flex;gap:12px;margin-top:14px;flex-wrap:wrap}
 .pd-thumbs button{width:78px;height:78px;border:1.5px solid var(--line);border-radius:10px;background:#fff;
   padding:8px;cursor:pointer;transition:.2s;display:flex;align-items:center;justify-content:center}
 .pd-thumbs button:hover{border-color:var(--blue-l)}
 .pd-thumbs button.on{border-color:var(--blue);box-shadow:0 4px 14px rgba(18,87,204,.18)}
-.pd-thumbs img{max-height:100%;width:auto;object-fit:contain}
+.pd-thumbs img{display:block;width:100%;aspect-ratio:1/1;object-fit:cover}
 .pd-info h1{font-size:34px;letter-spacing:-.02em}
 .pd-cat{display:inline-block;font-size:11.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;
   color:var(--green);background:rgba(14,156,114,.09);border:1px solid rgba(14,156,114,.25);
