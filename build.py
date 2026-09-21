@@ -24,6 +24,46 @@ CAT_DESC = {
  'Air Purifier':'HEPA and carbon filtration units with high CADR for dust, odour and fine particle removal.',
  'Accessory':'Window kits, exhaust ducts, adaptors, filters and spare parts to complete the installation.',
 }
+# Longer SEO intro per category (used on category landing pages & meta description)
+CAT_INTRO = {
+ 'Portable Air Con.':'Focusee portable air conditioners run from a 1,000 BTU camping unit to a 24,000 BTU floor-standing spot cooler. Every model is ductless, wheel-mounted and plug-and-play — no outdoor unit, no installation.',
+ 'Dehumidifier':'Focusee portable dehumidifiers extract 10 to 50 litres of moisture per day, with auto-defrost, continuous-drain and condensate-pump options for basements, warehouses, labs and comfort cooling.',
+ 'Air Purifier':'Focusee air purifiers combine true HEPA and activated-carbon filtration with high CADR for dust, odour, smoke and fine-particle removal in homes, offices and light-commercial spaces.',
+ 'Accessory':'Complete any installation with Focusee window kits, exhaust ducts, adaptors, filters and spare parts, engineered to fit our portable air conditioners and dehumidifiers.',
+}
+# Category-specific FAQ (real B2B buyer questions -> FAQPage rich result)
+CAT_FAQ = {
+ 'Portable Air Con.':[
+   ('Do portable air conditioners need an outdoor unit?',
+    'No. Focusee portable air conditioners are self-contained: the compressor, condenser and evaporator sit in one wheel-mounted cabinet. You only route a flexible exhaust duct to a window or vent, then plug it in.'),
+   ('Can I use a portable AC in a tent, RV or server room?',
+    'Yes. Our 1,000 to 4,000 BTU units suit tents, RVs, cabins and small server rooms, while 12,000 to 24,000 BTU models handle halls, warehouses and industrial spot cooling.'),
+   ('Do you customise voltage and plug for my market?',
+    'Yes. Voltage (110V / 220V, 50 or 60 Hz), plug type and the user manual are configured to your destination market — Type G for the UK, Type F for the EU, Type I for AU / NZ and Type A/B for North America.'),
+ ],
+ 'Dehumidifier':[
+   ('Where should I place a portable dehumidifier?',
+    'In the damp space itself — basement, warehouse corner, laundry room or storage area — with a few centimetres of clearance around the intake and exhaust. A continuous-drain hose lets it run unattended.'),
+   ('What capacity dehumidifier do I need?',
+    'Rough guide: 10 to 20 L/day for a flat or small basement, 20 to 35 L/day for a warehouse or light-commercial area, and 35 to 50 L/day for large or very damp spaces. We will size it with you.'),
+   ('Do your dehumidifiers have auto-defrost?',
+    'Yes. All models include auto-defrost, and most offer a continuous-drain or condensate-pump option so they keep working in cold basements without manual emptying.'),
+ ],
+ 'Air Purifier':[
+   ('What does HEPA filtration actually remove?',
+    'True HEPA captures 99.97% of particles down to 0.3 microns — dust, pollen, smoke, pet dander and fine PM2.5 — while the activated-carbon layer absorbs odour and VOCs.'),
+   ('How often should I replace the filter?',
+    'Most filters last 6 to 12 months depending on air quality and runtime; the unit shows a filter-life indicator so you replace it only when needed.'),
+   ('Are Focusee air purifiers quiet enough for bedrooms?',
+    'Yes. A dedicated sleep mode drops fan speed and noise to bedroom-friendly levels while keeping air circulation going through the night.'),
+ ],
+ 'Accessory':[
+   ('Which window kit fits my portable AC?',
+    'Our sliding-window adaptor kit (3 pieces per set) fits the standard exhaust-duct diameter used across the Focusee portable air conditioner range. Tell us your window type and we will match it.'),
+   ('Can I get a longer exhaust duct?',
+    'Yes. Exhaust ducts are available in 1.5 m, 2 m, 3 m and 4 m lengths, supplied separately or packed with the unit per your configuration.'),
+ ],
+}
 
 # ------------------------------------------------------------------ helpers
 def esc(s): return html.escape(str(s if s is not None else ''))
@@ -33,6 +73,9 @@ def esca(s):
             .replace('>', '&gt;').replace('"', '&quot;'))
 def slug(s): return re.sub(r'[^a-z0-9]+','-',(s or '').lower()).strip('-') or 'product'
 LOGO = '68ca51498f2ea.png'
+# Google Search Console site-verification meta content. Paste the value from
+# GSC ("HTML 标记" method) here, then rebuild; empty = no tag emitted.
+GSC_VERIFY = ''
 def gallery(p):
     g=[]
     for im in ([p.get('thumb')] + p.get('thumbs',[])):
@@ -49,6 +92,7 @@ HEAD_T = '''<!DOCTYPE html>
 <meta name="description" content="{{D}}">
 <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1">
 <meta name="author" content="Focusee Company Limited">
+{{GVERIFY}}
 <link rel="canonical" href="{{CANON}}">
 <meta name="theme-color" content="#0B5CAB">
 <meta property="og:type" content="{{OGT}}">
@@ -91,7 +135,7 @@ def topbar():
 
 def header(active='', r=''):
     def cls(k): return ' class="on"' if active == k else ''
-    subs = ''.join(f'<a href="{r}products.html#{CAT_SLUG[c]}">{esc(c)}</a>' for c in CATS)
+    subs = ''.join(f'<a href="{r}{CAT_SLUG[c]}.html">{esc(c)}</a>' for c in CATS)
     return topbar() + f'''<header><div class="wrap">
   <a class="logo" href="{r}index.html">
     <img src="{r}assets/img/logo.png" alt="FOCUSEE">
@@ -120,7 +164,7 @@ def footer(r=''):
         <div class="socials"><a href="mailto:Marketing@focuseetech.com">@</a><a href="https://wa.me/8613425651968">WA</a></div>
       </div>
       <div><h4>Products</h4><ul>
-        {''.join(f'<li><a href="{r}products.html#{CAT_SLUG[c]}">{esc(c)}</a></li>' for c in CATS)}
+        {''.join(f'<li><a href="{r}{CAT_SLUG[c]}.html">{esc(c)}</a></li>' for c in CATS)}
         <li><a href="{r}products.html">All Products</a></li>
       </ul></div>
       <div><h4>Company</h4><ul>
@@ -353,6 +397,9 @@ def page(fname, title, desc, body, active='', r='', canon=None, ogt='website', o
                .replace('{{CANON}}', esca(canon))
                .replace('{{OGT}}', ogt)
                .replace('{{OGI}}', esca(ogi or OG_IMAGE))
+               .replace('{{GVERIFY}}',
+                         ('<meta name="google-site-verification" content="%s">' % esca(GSC_VERIFY))
+                         if GSC_VERIFY else '')
                .replace('{{JSONLD}}', jsonld))
     htmlout = h + header(active, r) + body + footer(r) + FOOT_T.replace('{{R}}', r)
     open(os.path.join(ROOT, fname), 'w', encoding='utf-8').write(htmlout)
@@ -406,7 +453,7 @@ def build_index():
     cat_tiles = ''
     for c in CATS:
         n = len([x for x in DATA if x['cat'] == c])
-        cat_tiles += f'''<a class="cat-tile" href="products.html#{CAT_SLUG[c]}">
+        cat_tiles += f'''<a class="cat-tile" href="{CAT_SLUG[c]}.html">
   <div class="n">{n:02d}</div><h3>{esc(c)}</h3><p>{esc(CAT_DESC[c])}</p>
   <span class="card-more">Browse range</span></a>'''
     cards = '\n'.join(card(p, i) for i, p in enumerate(feat))
@@ -537,6 +584,14 @@ def build_index():
          'Typically 30 to 45 days after deposit and artwork approval, depending on model and season. Repeat orders of existing models are usually faster.'),
         ('Can you ship mixed containers?',
          'Yes. Portable air conditioners, dehumidifiers, air purifiers and accessories can be combined in one container, and we will work out the loading plan for you.'),
+        ('What is your warranty and after-sales policy?',
+         'We provide a standard 12-month limited warranty on portable air conditioners and dehumidifiers, with spare-parts support and technical documentation. Extended warranty and local service arrangements can be discussed for volume OEM programmes.'),
+        ('What are your payment terms?',
+         'Typical terms are T/T with a 30% deposit and 70% against a copy of the bill of lading, or an irrevocable L/C at sight for established buyers. Exact terms are confirmed per order.'),
+        ('Can I order a sample or prototype before a container?',
+         'Yes. We can ship a sample unit or a small trial batch so you can verify build quality, performance and packaging before committing to a full container. Sample cost is credited against your first container order.'),
+        ('Do you customise voltage and plug for my market?',
+         'Yes. Voltage (110V / 220V, 50 or 60 Hz), plug type and the full user manual are configured for your destination market — Type G for the UK, Type F for the EU, Type I for AU / NZ and Type A/B for North America.'),
     ]
     faq_html = ''.join(
         f'<details{" open" if i == 0 else ""}><summary>{q}</summary><div class="faq-a"><p>{a}</p></div></details>'
@@ -603,6 +658,63 @@ def build_products():
                 body, 'products',
                 jsonld=breadcrumb_ld([('Home', SITE), ('Products', None)]) + '\n'
                        + itemlist_ld('Focusee portable air comfort catalogue', items))
+
+# ------------------------------------------------------------------ CATEGORY
+def build_category(c):
+    items = [p for p in DATA if p['cat'] == c]
+    if not items:
+        return None
+    n = len(items)
+    slug_c = CAT_SLUG[c]
+    fname = slug_c + '.html'
+    intro = CAT_INTRO.get(c, CAT_DESC[c])
+    cat_title = {'Portable Air Con.': 'Portable Air Conditioners', 'Dehumidifier': 'Dehumidifiers',
+                 'Air Purifier': 'Air Purifiers', 'Accessory': 'Accessories'}.get(c, c)
+    cards = '\n'.join(card(p, i) for i, p in enumerate(items))
+    faqs = CAT_FAQ.get(c, [])
+    faq_html = ''.join(
+        f'<details{" open" if i == 0 else ""}><summary>{q}</summary>'
+        f'<div class="faq-a"><p>{a}</p></div></details>'
+        for i, (q, a) in enumerate(faqs))
+    desc_full = intro + (' Browse %d %s models with published specifications, MOQ and container loading data. OEM / ODM, certified for your market.'
+                         % (n, c.lower()))
+    desc = desc_full if len(desc_full) <= 158 else desc_full[:155].rstrip() + '…'
+    body = f'''<section class="phead"><div class="wrap">
+  <h1>{esc(cat_title)}</h1>
+  <div class="crumb"><a href="index.html">Home</a><span class="sep">/</span><a href="products.html">Products</a><span class="sep">/</span><span>{esc(c)}</span></div>
+</div></section>
+
+<section style="padding-top:40px"><div class="wrap">
+  <div class="sec-head">
+    <span class="eyebrow">{n} models</span>
+    <h2>{esc(c)} for importers and retail brands</h2>
+    <p>{esc(intro)}</p>
+  </div>
+  <div class="grid">{cards}</div>
+  <div style="text-align:center;margin-top:34px"><a class="btn btn-line" href="products.html">View the full catalogue</a></div>
+</div></section>
+
+<section class="alt" id="faq"><div class="wrap">
+  <div class="sec-head">
+    <span class="eyebrow g">Buyer questions</span>
+    <h2>{esc(cat_title)} — frequently asked questions</h2>
+  </div>
+  <div class="faq">{faq_html}</div>
+</div></section>
+'''
+    faq_ld = ld({"@context": "https://schema.org", "@type": "FAQPage",
+                 "mainEntity": [{"@type": "Question", "name": re.sub(r'<[^>]+>', '', q),
+                                "acceptedAnswer": {"@type": "Answer",
+                                                   "text": re.sub(r'<[^>]+>', '', a)}}
+                               for q, a in faqs]}) if faqs else ''
+    items_ld = [{'name': p['name'], 'url': SITE + 'product-' + p['slug'] + '.html'} for p in items]
+    jsonld = (breadcrumb_ld([('Home', SITE), ('Products', SITE + 'products.html'), (c, None)])
+              + '\n' + itemlist_ld(f'Focusee {c} catalogue', items_ld))
+    if faq_ld:
+        jsonld += '\n' + faq_ld
+    return page(fname,
+                f'{cat_title} | Focusee Company Limited — OEM & Private Label',
+                desc, body, 'products', ogt='product', ogi=OG_IMAGE, jsonld=jsonld)
 
 # ------------------------------------------------------------------ DETAIL
 def spec_tables(tables):
@@ -952,6 +1064,8 @@ def build_sitemap():
     today = time.strftime('%Y-%m-%d')
     urls = [('', '1.0', 'weekly'), ('products.html', '0.9', 'weekly'),
             ('about.html', '0.6', 'monthly'), ('contact.html', '0.7', 'monthly')]
+    for c in CATS:
+        urls.append((CAT_SLUG[c] + '.html', '0.7', 'weekly'))
     for p in DATA:
         urls.append((f'product-{p["slug"]}.html', '0.8', 'monthly'))
     out = ['<?xml version="1.0" encoding="UTF-8"?>',
@@ -1046,6 +1160,9 @@ ensure_webp()          # must run before any page is rendered
 save_dims()
 open(ROOT + '/assets/js/site.js','w',encoding='utf-8').write(JS)
 files = [build_index(), build_products(), build_about(), build_contact(), build_404()]
+for c in CATS:
+    f = build_category(c)
+    if f: files.append(f)
 for p in DATA:
     files.append(build_detail(p))
 build_sitemap(); build_robots()
