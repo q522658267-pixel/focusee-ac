@@ -244,7 +244,7 @@ section{padding:88px 0}
 
 /* ---------- footer ---------- */
 footer{background:#05192F;color:#93AECB;font-size:13.5px;padding:70px 0 0}
-.f-grid{display:grid;grid-template-columns:1.5fr 1fr 1fr 1.3fr;gap:44px;padding-bottom:52px}
+.f-grid{display:grid;grid-template-columns:1.5fr 1fr 1.1fr 1fr 1.3fr;gap:40px;padding-bottom:52px}
 .f-grid h4{color:#fff;font-size:14px;letter-spacing:.1em;text-transform:uppercase;margin-bottom:20px}
 .f-grid li{margin-bottom:11px}
 .f-grid a:hover{color:#fff}
@@ -381,6 +381,22 @@ table.spec tr:first-child td:first-child{background:var(--navy-2);color:#fff}
   .float-card{display:none}
   .pd-high{grid-template-columns:1fr}
 }
+/* ---------- article / application landing pages ---------- */
+.prose{max-width:840px}
+.prose h2{font-size:25px;margin:42px 0 14px;letter-spacing:-.015em}
+.prose h3{font-size:18px;margin:26px 0 10px;color:var(--ink)}
+.prose p{margin:0 0 16px;line-height:1.8}
+.prose ul{margin:0 0 18px;padding-left:22px;list-style:disc}
+.prose li{margin-bottom:9px;line-height:1.75}
+.prose .tbl{overflow-x:auto;margin:6px 0 24px}
+.prose table{width:100%;border-collapse:collapse;font-size:14.5px;box-shadow:var(--shadow-s);border-radius:var(--r-s);overflow:hidden}
+.prose th{background:var(--bg-2);text-align:left;padding:12px 16px;color:var(--ink);font-weight:700;font-size:13.5px;letter-spacing:.02em}
+.prose td{padding:12px 16px;border-top:1px solid var(--line)}
+.prose .note{background:var(--bg);border-left:3px solid var(--green);padding:16px 20px;border-radius:0 var(--r-s) var(--r-s) 0;margin:0 0 22px;font-size:14.5px}
+.art-cta{background:var(--bg);border:1px solid var(--line);border-radius:var(--r);padding:30px 32px;margin:42px 0 0;display:flex;flex-wrap:wrap;gap:18px;align-items:center;justify-content:space-between}
+.art-cta h3{margin:0 0 6px;font-size:20px}
+.art-cta p{margin:0;font-size:14.5px;max-width:520px}
+
 @media(max-width:600px){
   .grid,.why,.cats,.func-grid{grid-template-columns:1fr}
   .topbar{font-size:11.5px}

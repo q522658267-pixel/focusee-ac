@@ -173,6 +173,11 @@ def footer(r=''):
         <li><a href="{r}contact.html">Contact</a></li>
         <li><a href="{r}contact.html">Request Catalogue</a></li>
       </ul></div>
+      <div><h4>Resources</h4><ul>
+        <li><a href="{r}applications/tent-camping-ac.html">Camping &amp; RV Cooling</a></li>
+        <li><a href="{r}applications/server-room-cooling.html">Server Room Cooling</a></li>
+        <li><a href="{r}blog/oem-private-label-guide.html">OEM &amp; Private Label</a></li>
+      </ul></div>
       <div><h4>Contact</h4><ul>
         <li style="line-height:1.6">{esc(ADDRESS)}</li>
         <li><a href="mailto:carol.luo@focuseetech.com">carol.luo@focuseetech.com</a></li>
@@ -402,7 +407,9 @@ def page(fname, title, desc, body, active='', r='', canon=None, ogt='website', o
                          if GSC_VERIFY else '')
                .replace('{{JSONLD}}', jsonld))
     htmlout = h + header(active, r) + body + footer(r) + FOOT_T.replace('{{R}}', r)
-    open(os.path.join(ROOT, fname), 'w', encoding='utf-8').write(htmlout)
+    dest = os.path.join(ROOT, fname)
+    os.makedirs(os.path.dirname(dest), exist_ok=True)
+    open(dest, 'w', encoding='utf-8').write(htmlout)
     return fname
 
 def alt_of(p, i=0):
@@ -596,6 +603,33 @@ def build_index():
     faq_html = ''.join(
         f'<details{" open" if i == 0 else ""}><summary>{q}</summary><div class="faq-a"><p>{a}</p></div></details>'
         for i, (q, a) in enumerate(faqs))
+    res_tiles = ''.join(
+        f'''<a class="cat-tile" href="{s['path']}">
+  <div class="n">{i+1:02d}</div><h3>{esc(t)}</h3><p>{esc(d)}</p>
+  <span class="card-more">Read more</span></a>'''
+        for i, (t, d, s) in enumerate([
+            ('Camping, tent & RV cooling',
+             'How to size 1,800-9,000 BTU units for tents, caravans and motorhomes, and how to power them on site.',
+             APP_PAGES[0]),
+            ('Server room & cabinet cooling',
+             'Working out the heat load from equipment watts, and directing cold air where it is needed.',
+             APP_PAGES[1]),
+            ('OEM & private label guide',
+             'ODM versus OEM, what can be customised, certification by market, tooling, MOQ and lead times.',
+             APP_PAGES[2]),
+        ]))
+    body += f'''
+<section id="resources">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">Guides &amp; applications</span>
+      <h2>Sizing, certification and private-label guides</h2>
+      <p>Technical background for the questions that come up before an order &mdash; written for importers and retail buyers rather than end users.</p>
+    </div>
+    <div class="cats">{res_tiles}</div>
+  </div>
+</section>
+'''
     body += f'''
 <section class="alt" id="faq">
   <div class="wrap">
@@ -715,6 +749,317 @@ def build_category(c):
     return page(fname,
                 f'{cat_title} | Focusee Company Limited — OEM & Private Label',
                 desc, body, 'products', ogt='product', ogi=OG_IMAGE, jsonld=jsonld)
+
+# --------------------------------------------------- APPLICATION / GUIDE PAGES
+def prod_by_name(n):
+    for p in DATA:
+        if p['name'] == n:
+            return p
+    return None
+
+def render_blocks(blocks):
+    """Render a list of content blocks: p / note / ul / table."""
+    out = []
+    for b in blocks:
+        k = b[0]
+        if k == 'p':
+            out.append(f'<p>{esc(b[1])}</p>')
+        elif k == 'note':
+            out.append(f'<div class="note">{esc(b[1])}</div>')
+        elif k == 'ul':
+            out.append('<ul>' + ''.join(f'<li>{esc(x)}</li>' for x in b[1]) + '</ul>')
+        elif k == 'table':
+            head = ''.join(f'<th>{esc(x)}</th>' for x in b[1])
+            rows = ''.join('<tr>' + ''.join(f'<td>{esc(c)}</td>' for c in row) + '</tr>'
+                           for row in b[2])
+            out.append(f'<div class="tbl"><table><thead><tr>{head}</tr></thead>'
+                       f'<tbody>{rows}</tbody></table></div>')
+    return '\n'.join(out)
+
+APP_PAGES = [
+ dict(
+  fname='applications/tent-camping-ac.html',
+  path='applications/tent-camping-ac.html',
+  title='Camping, Tent & RV Air Conditioning | Focusee Ductless Portable AC',
+  desc='Ductless portable air conditioners from 1,800 to 9,000 BTU for tents, caravans, RVs and cabins - no outdoor unit, 230 V campsite or off-grid options, OEM available.',
+  h1='Cooling for tents, caravans and RVs',
+  eyebrow='Application',
+  lede='A ductless portable air conditioner cools a tent, caravan or motorhome without an outdoor condenser - one exhaust duct out of a window or vent sleeve, running from a campsite hook-up or a small generator.',
+  blocks=[
+   ('h2', 'Why ductless cooling suits camping and RV use'),
+   ('p', 'Campgrounds, caravan parks and RV sites rarely allow an outdoor condenser, and a split system needs refrigerant pipework that cannot be installed on a temporary pitch. A portable unit needs no outdoor equipment: the compressor sits inside the casing and only the exhaust duct has to leave the space.'),
+   ('ul', [
+     'No outdoor unit and no refrigerant work - nothing to mount on the pitch or the vehicle',
+     'One exhaust duct out of a window, roof vent or purpose-made tent sleeve',
+     'Wheel-mounted and typically 20-35 kg, so it moves between tent, caravan and awning',
+     'Runs from a standard 230-240 V campsite hook-up',
+   ]),
+   ('note', 'Portable units in this class must be vented. Sealed no-duct spot coolers exist, but they need a far larger power supply and are rarely available below 12,000 BTU.'),
+   ('h2', 'Sizing: how many BTU for a tent, caravan or RV?'),
+   ('p', 'Capacity has to cover the heat coming through the walls and roof plus the heat the occupants generate. Canvas and thin fibreglass hold far less heat out than an insulated caravan, so two similar-sized spaces can need very different units.'),
+   ('table', ['Space', 'Typical capacity', 'Notes'], [
+     ['2-4 person tent', '1,000 - 2,000 BTU', 'Night-time use, vented through a window flap or tent sleeve'],
+     ['Large tent / glamping unit', '2,000 - 4,000 BTU', 'Higher load when the sun hits the canvas directly'],
+     ['Caravan or small camper', '4,000 - 7,000 BTU', 'Insulated walls; allow more if the roof is unshaded'],
+     ['Large caravan / motorhome', '7,000 - 12,000 BTU', 'Check the site hook-up amperage before choosing'],
+   ]),
+   ('p', 'As a rule of thumb, add capacity for direct sun, for more than two occupants, and for a space used as a daytime living area rather than for sleep only.'),
+   ('h2', 'Power: campsite hook-ups, generators and 12 V'),
+   ('ul', [
+     'EU and UK campsite hook-ups are normally 230-240 V at 6 A or 16 A - confirm the site amperage before selecting a model',
+     'Compact units draw roughly 400-700 W; mid-size camping units 700-1,200 W',
+     'Off-grid users pair a compact DC unit with a 12 V / 24 V battery bank and inverter, or run an AC unit from a small generator',
+     'Voltage, plug type and frequency are configured at assembly for the destination market',
+   ]),
+   ('h2', 'Exhaust, condensate and noise'),
+   ('p', 'The exhaust duct carries the heat out of the space, so the shorter and straighter the run, the better the performance. A window kit is normally included; for tents and caravans a sleeve or vent panel keeps the duct in place.'),
+   ('p', 'Most camping-range units are self-evaporating, so water from the evaporator is reused to cool the condenser. Larger units collect condensate in a tank or can run on a continuous drain hose - useful for a longer stay.'),
+   ('p', 'Night-time noise matters more in a tent or a caravan than in a room, so quiet-mode fans and low-vibration mounts are the two specification points buyers ask about most in this segment.'),
+   ('h2', 'What buyers in this segment usually specify'),
+   ('ul', [
+     'Carry handles and a moulded case for transport',
+     'Remote control and a sleep or quiet mode',
+     'Auto-restart after a power interruption',
+     'Colour and retail carton to match the brand',
+     'CE / UKCA marking for EU and UK sales',
+   ]),
+  ],
+  faqs=[
+   ('Can a portable air conditioner really cool a tent?',
+    'Yes, provided the exhaust duct is routed outside through a window flap or a tent vent sleeve. Without venting, the heat the unit removes is pushed straight back into the tent. A 1,000-2,000 BTU unit is enough for a two to four person tent at night.'),
+   ('Will a camping air conditioner run from a battery?',
+    'Compact DC models can run from a 12 V or 24 V battery bank through a suitable inverter. AC units generally need a campsite hook-up or a small generator, because start-up current is several times the running current.'),
+   ('How many BTU do I need for a caravan?',
+    'A well-insulated caravan usually needs 4,000-7,000 BTU and a larger motorhome 7,000-12,000 BTU. Add capacity for an unshaded roof and for daytime use.'),
+   ('Does the unit have to sit outside?',
+    'No. The unit stays inside the space and only the exhaust duct goes outside. Keep the duct run as short as is practical.'),
+   ('Can we order these units under our own brand?',
+    'Yes. Both the compact camping units and the caravan-range models are available for private label, with your carton, rating label and manual.'),
+  ],
+  models=['PCX5R-18MA', 'PC-LMA', 'PC20S-22MA'],
+  models_head='Compact models suited to tents, caravans and RVs',
+ ),
+ dict(
+  fname='applications/server-room-cooling.html',
+  path='applications/server-room-cooling.html',
+  title='Server Room & Electrical Cabinet Cooling | Focusee Spot Coolers',
+  desc='Portable spot coolers from 11,000 to 30,000 BTU for server rooms, comms cabinets and switchgear rooms - no outdoor unit, condensate pump option, OEM available.',
+  h1='Cooling for server rooms, comms cabinets and switchgear',
+  eyebrow='Application',
+  lede='Where a split system cannot be installed - rented premises, temporary sites, or a cabinet added after the room was built - a portable spot cooler is the fastest way to remove heat from IT and electrical equipment.',
+  blocks=[
+   ('h2', 'Why spot cooling instead of a split system'),
+   ('ul', [
+     'No outdoor condenser, so no landlord approval, façade penetration or planning delay',
+     'No refrigerant pipework to install or commission',
+     'Moveable - one unit can cover a cabinet today and a rack room next month',
+     'Provides standby capacity for equipment that cannot be taken offline',
+     'Installed and running the same day',
+   ]),
+   ('h2', 'Sizing the heat load'),
+   ('p', 'Electrical equipment converts almost all of its input power into heat, so the load is calculated directly from the power draw:'),
+   ('note', 'BTU/h = equipment watts x 3.412'),
+   ('p', 'Add a margin of 20-30 % for solar gain through windows, lighting, people and duct losses, then round up to the nearest available capacity.'),
+   ('table', ['Installation', 'Typical IT / electrical load', 'Suggested capacity'], [
+     ['Wall-mounted comms cabinet', '0.5 - 1.5 kW', '4,000 - 7,000 BTU'],
+     ['Small rack (1-3 racks)', '2 - 4 kW', '12,000 - 18,000 BTU'],
+     ['Server room / switchgear room', '5 - 8 kW', '24,000 - 30,000 BTU'],
+   ]),
+   ('note', 'Example: a 3 kW rack generates 3 x 3.412 = about 10,240 BTU/h. With a 25 % margin that is roughly 12,800 BTU/h, so a 14,000 BTU unit is the smallest sensible choice.'),
+   ('h2', 'Directing cold air where it matters'),
+   ('p', 'A spot cooler is only as good as the air path. Point the supply louvre at the intake of the equipment, or use a cold-air duct kit to deliver air to the front of a rack. Avoid blowing cold air at the ceiling or into a corner, where it will short-cycle back into the unit.'),
+   ('ul', [
+     'Deliver air to the equipment intake, not to the room in general',
+     'Keep return air away from the cold supply to avoid short-cycling',
+     'Blank unused rack space so cold air is not lost straight through',
+     'Keep the exhaust duct run short and prefer a window kit to an open doorway',
+   ]),
+   ('h2', 'Condensate and continuous operation'),
+   ('p', 'Dehumidification produces water continuously. For a cabinet or a short-term job the internal tank is usually enough. For round-the-clock duty, specify a condensate pump or a gravity drain hose so the unit does not stop on a full tank.'),
+   ('p', 'Units used in this way run for long periods, so washable or replaceable filters and a serviceable coil matter more than in domestic use.'),
+   ('h2', 'Standby and maintenance'),
+   ('p', 'Many operators buy a spot cooler purely as standby capacity: it sits unused until the primary air conditioning fails, then holds the room within limits while a repair is arranged. For that duty look for auto-restart after power failure, a permanent drain connection and controls that any member of staff can operate.'),
+  ],
+  faqs=[
+   ('Can a portable air conditioner keep a server room cool?',
+    'For small and mid-size loads, yes. A portable spot cooler handles a comms cabinet or a small rack room well. Once the load goes beyond roughly 8-10 kW a dedicated precision cooling system is the right answer, and the portable unit becomes the standby.'),
+   ('How do I work out the BTU for a server room?',
+    'Multiply the equipment wattage by 3.412 to get BTU/h, then add a 20-30 % margin. A 3 kW rack therefore needs roughly 12,000-14,000 BTU of cooling.'),
+   ('Does the unit need a drain?',
+    'The internal tank is fine for short jobs. For continuous operation choose the condensate pump or gravity-drain option so the unit does not shut down when the tank fills.'),
+   ('Can it run continuously?',
+    'Yes. The models used for this application are built for long-duty operation, though the filters should be cleaned at the interval given in the manual and the coil serviced periodically.'),
+   ('Can the cold air be ducted into a rack?',
+    'Yes. A cold-air duct kit lets you deliver air from the supply louvre directly to the front of the rack, which is far more effective than cooling the whole room.'),
+  ],
+  models=['PCI35R-25MAS', 'PC-MMA', 'PC90R-MMA'],
+  models_head='Higher-capacity models for room and equipment loads',
+ ),
+ dict(
+  fname='blog/oem-private-label-guide.html',
+  path='blog/oem-private-label-guide.html',
+  title='OEM & Private Label Air Conditioners: A Buyer\u2019s Guide | Focusee',
+  desc='How to launch a private-label portable air conditioner, dehumidifier or air purifier: ODM vs OEM, customisation, certification by market, MOQ, tooling and lead times.',
+  h1='OEM and private label: a practical buyer\u2019s guide',
+  eyebrow='Guide',
+  lede='Taking a portable air conditioner or dehumidifier to market under your own brand is a project with a fixed sequence of steps. This guide sets out what each step involves, what drives cost, and where first-time importers most often lose time.',
+  blocks=[
+   ('h2', 'ODM, OEM and private label - what the words actually mean'),
+   ('table', ['Route', 'What changes', 'Tooling', 'Typical minimum'], [
+     ['Private label (ODM)', 'Your brand on an existing model: logo, carton, rating label, manual', 'None', 'Lowest - can share a mixed container'],
+     ['Customised ODM', 'Existing platform with a modified colour, control panel or fascia', 'Light tooling', 'Mid - set by model and by change'],
+     ['Full OEM', 'Your own industrial design, moulds, PCB and specification', 'Full tooling', 'Highest - set by tooling and line setup'],
+   ]),
+   ('p', 'Most first programmes start as private label on a proven platform, because the certification and the reliability are already established and the only changes are cosmetic and documentary.'),
+   ('h2', 'The seven steps of a private-label programme'),
+   ('ul', [
+     'Brief - target market, capacity range, price point, channels and volumes',
+     'Model selection - an existing platform that matches the brief, or a proposal from us',
+     'Sample and sign-off - a working sample is approved before any artwork or tooling starts',
+     'Artwork - retail carton, rating label, user manual and remote-control overlay',
+     'Certification - testing and documentation for the destination market',
+     'Pilot order - production, pre-shipment inspection and shipping documents',
+     'Repeat orders - loading plan across models, plus any seasonal forecast you can give us',
+   ]),
+   ('h2', 'What can be customised, and what it costs in time'),
+   ('table', ['Item', 'Customisable?', 'Effect on lead time'], [
+     ['Logo on the unit', 'Yes - printing or nameplate', 'None to minor'],
+     ['Retail carton', 'Yes - full artwork', 'Adds 5-10 days before print approval'],
+     ['Rating label and manual', 'Yes - and required in many markets', 'Included in the artwork stage'],
+     ['Voltage, plug and frequency', 'Yes - set at assembly', 'None'],
+     ['Colour or fascia change', 'Yes - on selected platforms', 'Light tooling, adds several weeks'],
+     ['New industrial design', 'Yes - full OEM', 'Tooling typically 25-45 days'],
+   ]),
+   ('h2', 'Certification by destination market'),
+   ('p', 'Market access is the step that most often delays a launch, because testing can only start once the final specification and artwork are frozen. Plan it early and treat it as a critical-path item.'),
+   ('table', ['Market', 'Typically required'], [
+     ['European Union', 'CE marking, EMC and safety testing, energy label and refrigerant documentation'],
+     ['United Kingdom', 'UKCA marking alongside the equivalent safety and EMC testing'],
+     ['Australia / New Zealand', 'Electrical safety and EMC, plus MEPS registration for the model'],
+     ['GCC', 'G-Mark and destination-specific conformity documentation'],
+     ['North America', 'Safety listing for the model and market-specific electrical configuration'],
+   ]),
+   ('note', 'Testing is arranged with accredited laboratories against the final bill of materials and artwork. Because requirements change, confirm the current list for your market before tooling is committed.'),
+   ('h2', 'Minimum order, lead time and payment'),
+   ('ul', [
+     'The minimum is set per model and per change - a private-label run on an existing platform is far lower than a full-OEM programme',
+     'Production normally starts after sample approval, artwork sign-off and deposit',
+     'Typical production lead time after approval is 30-45 days, plus transit',
+     'Mixed containers are possible - air conditioners, dehumidifiers and purifiers can be combined with a loading plan',
+     'Payment is usually by T/T with a deposit and balance against documents; L/C terms can be discussed for larger orders',
+   ]),
+   ('h2', 'Inspection and quality control'),
+   ('p', 'A pre-shipment inspection on a defined sampling plan is standard for a first order, and third-party inspection is welcome. Ask for the test reports for the batch, not only for the sample, and keep a signed golden sample with both parties.'),
+   ('ul', [
+     'Pre-shipment inspection on an agreed AQL sampling plan',
+     'Batch test reports for cooling performance, electrical safety and leak checks',
+     'A sealed golden sample retained by both sides',
+     'Carton drop and transit testing for the retail pack',
+   ]),
+   ('h2', 'Five mistakes that cost first-time importers time'),
+   ('ul', [
+     'Starting certification after tooling - the specification has to be final first',
+     'Sizing for the wrong climate - a unit chosen for a mild market is undersized in a hot one',
+     'Forgetting the energy label and refrigerant paperwork for the EU',
+     'Approving tooling before the working sample is signed off',
+     'Leaving too little time between production and the retail season',
+   ]),
+  ],
+  faqs=[
+   ('What is the minimum order for a private-label air conditioner?',
+    'It depends on the route. A private-label run on an existing platform has the lowest minimum and can be combined with other models in a mixed container. A full-OEM programme with new tooling carries a much higher minimum because of the tooling and line setup.'),
+   ('Can you certify the unit for my market?',
+    'Certification is arranged per project: testing is carried out by accredited laboratories against your final specification and artwork for the destination market. We will confirm exactly which tests and documents your market requires before the programme starts.'),
+   ('How long does tooling take?',
+    'Light changes such as a colour or fascia modification take several weeks. A completely new industrial design typically needs 25-45 days for tooling before trial production.'),
+   ('Who owns the tooling?',
+    'Tooling paid for by the buyer is owned by the buyer. Ownership, storage and transfer terms are set out in the supply agreement.'),
+   ('Can I mix models in one container?',
+    'Yes. Air conditioners, dehumidifiers and air purifiers can be combined in a single container, and we will work out the loading plan so the space is used properly.'),
+   ('Do you supply the retail packaging?',
+    'Yes. We produce the carton, rating label, manual and remote overlay to your artwork, and you approve proofs before printing.'),
+  ],
+  models=[],
+  models_head='',
+ ),
+]
+
+def build_app(spec):
+    r = '../'
+    blocks = []
+    for b in spec['blocks']:
+        if b[0] == 'h2':
+            blocks.append(f'<h2>{esc(b[1])}</h2>')
+        else:
+            blocks.append(render_blocks([b]))
+    article = '\n'.join(blocks)
+    faqs = spec.get('faqs', [])
+    faq_html = ''.join(
+        f'<details{" open" if i == 0 else ""}><summary>{esc(q)}</summary>'
+        f'<div class="faq-a"><p>{esc(a)}</p></div></details>'
+        for i, (q, a) in enumerate(faqs))
+    # related models
+    rel = ''
+    picks = [prod_by_name(n) for n in spec.get('models', [])]
+    picks = [p for p in picks if p]
+    if picks:
+        rel = (f'<section class="alt"><div class="wrap">'
+               f'<div class="sec-head"><span class="eyebrow g">Related models</span>'
+               f'<h2>{esc(spec["models_head"])}</h2></div>'
+               f'<div class="grid">'
+               + '\n'.join(card(p, i, r) for i, p in enumerate(picks))
+               + '</div>'
+               f'<div style="text-align:center;margin-top:34px">'
+               f'<a class="btn btn-line" href="{r}products.html">View the full catalogue</a></div>'
+               f'</div></section>')
+    else:
+        links = ''.join(
+            f'<li><a href="{r}{CAT_SLUG[c]}.html">{esc(c)}</a></li>' for c in CATS)
+        rel = (f'<section class="alt"><div class="wrap">'
+               f'<div class="sec-head"><span class="eyebrow g">Where to start</span>'
+               f'<h2>Browse the product lines we build under private label</h2></div>'
+               f'<div class="prose"><ul>{links}</ul>'
+               f'<p>Send us a brief - target market, capacity range and volumes - and we will come back '
+               f'with the platforms that fit and the tooling or artwork that each one needs.</p></div>'
+               f'</div></section>')
+    body = f'''<section class="phead"><div class="wrap">
+  <h1>{esc(spec['h1'])}</h1>
+  <div class="crumb"><a href="{r}index.html">Home</a><span class="sep">/</span>
+  <a href="{r}index.html#resources">Resources</a><span class="sep">/</span><span>{esc(spec['eyebrow'])}</span></div>
+</div></section>
+
+<section style="padding-top:44px"><div class="wrap">
+  <div class="prose">
+    <p class="lede" style="font-size:17px;color:var(--ink)">{esc(spec['lede'])}</p>
+    {article}
+  </div>
+  <div class="prose"><div class="art-cta">
+    <div><h3>Need pricing or a specification sheet?</h3>
+    <p>Send us the capacity, market and volume you have in mind and we will reply with models, MOQ and lead time.</p></div>
+    <a class="btn btn-grad" href="{r}contact.html">Get a Quote</a>
+  </div></div>
+</div></section>
+
+<section class="alt" id="faq"><div class="wrap">
+  <div class="sec-head">
+    <span class="eyebrow g">Buyer questions</span>
+    <h2>Frequently asked questions</h2>
+  </div>
+  <div class="faq">{faq_html}</div>
+</div></section>
+
+{rel}
+'''
+    faq_ld = ld({"@context": "https://schema.org", "@type": "FAQPage",
+                 "mainEntity": [{"@type": "Question", "name": q,
+                                 "acceptedAnswer": {"@type": "Answer", "text": a}}
+                                for q, a in faqs]}) if faqs else ''
+    jsonld = breadcrumb_ld([('Home', SITE), ('Resources', None), (spec['h1'], None)])
+    if faq_ld:
+        jsonld += '\n' + faq_ld
+    return page(spec['fname'], spec['title'], spec['desc'], body,
+                active='', r=r, canon=SITE + spec['path'],
+                ogt='article', ogi=OG_IMAGE, jsonld=jsonld, path=spec['path'])
 
 # ------------------------------------------------------------------ DETAIL
 def spec_tables(tables):
@@ -1068,6 +1413,8 @@ def build_sitemap():
         urls.append((CAT_SLUG[c] + '.html', '0.7', 'weekly'))
     for p in DATA:
         urls.append((f'product-{p["slug"]}.html', '0.8', 'monthly'))
+    for spec in APP_PAGES:
+        urls.append((spec['path'], '0.6', 'monthly'))
     out = ['<?xml version="1.0" encoding="UTF-8"?>',
            '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">']
     for u, pri, cf in urls:
@@ -1165,6 +1512,8 @@ for c in CATS:
     if f: files.append(f)
 for p in DATA:
     files.append(build_detail(p))
+for spec in APP_PAGES:
+    files.append(build_app(spec))
 build_sitemap(); build_robots()
 print('og cover:', build_og_cover())
 print('pages written:', len(files))

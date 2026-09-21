@@ -5,25 +5,23 @@
 ## 核心判断
 
 - **技术 SEO 已 A+**：JSON-LD / canonical / OG / sitemap / WebP 全部到位，零死链零重复
-- **当前瓶颈**：域名无外链、无收录、无内容深度 → Google 不给权重
+- **当前瓶颈**：域名外链少、内容深度不足 → Google 不给足权重
 - **现实目标**：不追大词"portable air conditioner"（200 万+ 月搜，美的/格力/聚合站把持），专打**品牌/型号长尾词**（"Focusee PCX12R-22MA""Focusee OEM portable air conditioner"）——这些词收录后几乎稳拿第一，询盘质量最高
 
 ---
 
 ## 第一优先级（本周可做）
 
-### 1. Google Search Console 收录（必须）
-- 添加 `https://focuseetech.com/` → 选**HTML 标记**验证
-- build.py 第 78 行 `GSC_VERIFY = ''` 留空 → 待 GSC 给 token 后填入，重跑 `python build.py` 即可
-- 验证后在「站点地图」提交 `https://focuseetech.com/sitemap.xml`
-- Bing Webmaster Tools 同样提交一次（覆盖 Yahoo/DuckDuckGo）
-- 7–14 天后在 GSC「索引覆盖率】查看是否抓取成功
+### 1. ✅ Google Search Console 收录（已完成 2026-09-21）
+- Robert 已自行完成 GSC 收录
+- sitemap.xml 已可提交（69 条 URL）
+- Bing Webmaster Tools 建议同样提交一次（覆盖 Yahoo/DuckDuckGo）
+- 7–14 天后在 GSC「索引覆盖率」查看抓取情况
 
-### 2. 跨站互链（fcsequip + fcsappliance → focuseetech）
-- 两个站同属 Focusee，互链完全合规
-- 建议在 fcsequip.com 的导航或 footer 加链接：`Focusee Portable Air Conditioners`
-- 建议在 fcsappliance.com 的产品页底部加"相关品牌"区块
-- 这是"站内换外链"的高价值低成本动作，1 小时内可完成
+### 2. ❌ 跨站互链（不做 — 2026-09-21 用户决定）
+- fcsequip.com（和面机/烘焙设备）与 fcsappliance.com 与 focuseetech.com（移动空调/除湿机）**产品线完全不同**
+- 互链属于不相关的站点互推，对 Google 是低质量外链信号，**收益低且有风险**
+- 结论：**放弃互链，改走行业相关的 B2B 目录与内容营销**
 
 ---
 
@@ -75,9 +73,9 @@
 
 | 周次 | 任务 | 预期效果 |
 |------|------|---------|
-| 第 1 周 | GSC 收录 + 跨站互链 | 从 0 收录 → 被 Google 抓取 |
-| 第 2–3 周 | Alibaba + Made-in-China 上架 | 外部外链 +2 |
-| 第 4 周 | 3 篇行业落地页上线 | 长尾词开始有排名 |
+| 第 1 周 | ✅ GSC 收录（已完成）+ 3 篇行业落地页上线 | 从 0 收录 → 被 Google 抓取，长尾词开始有排名 |
+| 第 2–3 周 | Alibaba + Made-in-China + Europages 上架 | 外部外链 +3 |
+| 第 4 周 | 扩充应用场景页 / FAQ，内链优化 | 内容深度提升，索引页数增长 |
 | 第 2 月 | LinkedIn + YouTube 启动 | 外链持续积累 |
 | 第 3 月 | 评估 GSC 数据，调整关键词 | 复盘 + 迭代 |
 
