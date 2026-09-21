@@ -7,10 +7,10 @@
 ```
 focusee-ac/
 ├── index.html            首页
-├── products.html         产品总览（53 个型号，3 大分类，可筛选）
+├── products.html         产品总览（58 个型号，3 大分类，可筛选）
 ├── about.html            关于我们 / 可持续发展
 ├── contact.html          联系我们（Carol Luo / Robert Luo）
-├── product-<型号>.html   53 个产品详情页（规格表 + 功能表 + 图库）
+├── product-<型号>.html   58 个产品详情页（规格表 + 功能表 + 图库）
 ├── assets/
 │   ├── css/style.css     全站样式（含响应式）
 │   ├── js/site.js        移动菜单、分类筛选、产品图切换

@@ -5624,11 +5624,1253 @@
    "slug": "pc-bmd"
   },
   "next": {
+   "name": "PCX5R-18MA",
+   "slug": "pcx5r-18ma"
+  },
+  "g": [
+   "5f48c858dc77e.png"
+  ]
+ },
+ {
+  "name": "PCX5R-18MA",
+  "cat": "Portable Air Con.",
+  "desc": "Three casing options on one 1,800 BTU platform — windowless evaporative-assisted cooling for counters, kiosks and small rooms.",
+  "bullets": [
+   "PCX5R-18MA / 18MB / 18MD: 1,800 BTU · 500 W",
+   "Cooling by compressor and water both · 15 L/Day dehumidifying",
+   "MOQ: 20’FT*1 (mixed models)"
+  ],
+  "thumb": "pcx5r-18ma.jpg",
+  "thumbs": [
+   "pcx5r-18mb.jpg",
+   "pcx5r-18md.jpg"
+  ],
+  "tables": [
+   [
+    [
+     "PCX5R-18MA"
+    ],
+    [
+     "Model (GS/CE)",
+     "PCX5R-18MA / PCX5R-18MB / PCX5R-18MD"
+    ],
+    [
+     "Cooling Capacity (W) / BTU",
+     "500 W (1,800 BTU)"
+    ],
+    [
+     "Cooling Power Input (W)",
+     "200 (max. 300)"
+    ],
+    [
+     "Cooling Current Input (A)",
+     "0.87 (max. 1.30)"
+    ],
+    [
+     "Dehumidifying Capacity (L/Day)",
+     "15"
+    ],
+    [
+     "Cold Air Temperature Drop (°C)",
+     "10–14"
+    ],
+    [
+     "Operating Ambient Temperature (°C)",
+     "5–45"
+    ],
+    [
+     "Air Flow Volume (m³/h)",
+     "120"
+    ],
+    [
+     "Noise – Sound Power (dB(A))",
+     "38–44"
+    ],
+    [
+     "Noise – Sound Pressure (dB(A))",
+     "54–58"
+    ],
+    [
+     "Compressor",
+     "Reciprocating type"
+    ],
+    [
+     "Refrigerant",
+     "R290"
+    ],
+    [
+     "Voltage / Frequency",
+     "220–240 V / 50 Hz"
+    ],
+    [
+     "Standard Colours",
+     "White / Black / Grey"
+    ],
+    [
+     "Logistic Data"
+    ],
+    [
+     "Product Dimension (H×W×D, mm)",
+     "550 × 215 × 335"
+    ],
+    [
+     "Packaging Dimension (H×W×D, mm)",
+     "655 × 267 × 387"
+    ],
+    [
+     "N.W / G.W (kg)",
+     "12.8 / 14.2"
+    ],
+    [
+     "Container Loading (20'FT / 40'GP / 40'HQ)",
+     "378 / 792 / 1,056"
+    ]
+   ],
+   [
+    [
+     "Electronic Panel",
+     "YES"
+    ],
+    [
+     "ECO mode (compressor + water cooling)",
+     "YES"
+    ],
+    [
+     "Full-colour giftbox (orders below 1,000 pcs per model)",
+     "YES"
+    ],
+    [
+     "Extra manual languages (beyond 3)",
+     "Optional"
+    ],
+    [
+     "Remote Control",
+     "YES"
+    ],
+    [
+     "Exhaust pipe",
+     "NO"
+    ],
+    [
+     "Window adaptor",
+     "NO"
+    ],
+    [
+     "External drainage water tray",
+     "YES"
+    ],
+    [
+     "Drain water pipe",
+     "NO"
+    ],
+    [
+     "Auto-restart",
+     "YES"
+    ],
+    [
+     "Protective film for transport",
+     "YES"
+    ],
+    [
+     "Quiet operation",
+     "YES"
+    ],
+    [
+     "Auto operation",
+     "YES"
+    ],
+    [
+     "Fan speed adjustable 3 steps and sleep",
+     "YES"
+    ],
+    [
+     "Auto vertical air louvers",
+     "YES"
+    ],
+    [
+     "Manual horizontal air louvers",
+     "YES"
+    ],
+    [
+     "Casters",
+     "YES"
+    ],
+    [
+     "Auto Diagnosis",
+     "YES"
+    ],
+    [
+     "Dust filter",
+     "YES"
+    ],
+    [
+     "Error display and protection",
+     "YES"
+    ],
+    [
+     "Flexible wiring connection",
+     "NO"
+    ],
+    [
+     "Defrosting",
+     "YES"
+    ],
+    [
+     "Low-voltage start-up",
+     "YES"
+    ],
+    [
+     "Independent Dehumidification",
+     "YES"
+    ],
+    [
+     "Energy-saving sleep mode",
+     "YES"
+    ],
+    [
+     "Two-direction airflow",
+     "YES"
+    ],
+    [
+     "ON timer",
+     "YES, 1-24 hours"
+    ],
+    [
+     "OFF timer",
+     "YES, 1-24 hours"
+    ],
+    [
+     "WiFi (TUYA module)",
+     "Optional"
+    ],
+    [
+     "Exhaust hose + adaptors (vent humid air outdoors)",
+     "Optional"
+    ],
+    [
+     "Oil-smoke filter (kitchen use)",
+     "Optional"
+    ],
+    [
+     "Plasma air-purifying module",
+     "Optional"
+    ],
+    [
+     "Outer 2nd carton box",
+     "Optional"
+    ]
+   ]
+  ],
+  "slug": "pcx5r-18ma",
+  "prev": {
+   "name": "PC-FMA",
+   "slug": "pc-fma"
+  },
+  "next": {
+   "name": "PCX12R-22MA",
+   "slug": "pcx12r-22ma"
+  },
+  "g": [
+   "pcx5r-18ma.jpg",
+   "pcx5r-18mb.jpg",
+   "pcx5r-18md.jpg"
+  ]
+ },
+ {
+  "name": "PCX12R-22MA",
+  "cat": "Portable Air Con.",
+  "desc": "4,000 and 5,000 BTU water-assisted portable air conditioners with windowless operation, A+ energy class and 20–30 L/Day dehumidifying.",
+  "bullets": [
+   "PCX12R-22MA: 4,000 BTU · PCX15R-22MA: 5,000 BTU",
+   "Cooling by compressor and water both · 20–30 L/Day dehumidifying",
+   "MOQ: 20’FT*1 (mixed models)"
+  ],
+  "thumb": "pcx12r-22ma.jpg",
+  "thumbs": [
+   "pcx12r-22ma-2.jpg"
+  ],
+  "tables": [
+   [
+    [
+     "PCX12R-22MA"
+    ],
+    [
+     "Model (GS/CE)",
+     "PCX12R-22MA",
+     "PCX15R-22MA"
+    ],
+    [
+     "Cooling Capacity (W) / BTU",
+     "1,200 W (4,000 BTU)",
+     "1,500 W (5,000 BTU)"
+    ],
+    [
+     "Cooling Power (equivalent)",
+     "Similar to 3,500 W (12,000 BTU)",
+     "Similar to 4,000 W (14,000 BTU)"
+    ],
+    [
+     "Cooling Power Input (W)",
+     "360 (max. 460)",
+     "480 (max. 620)"
+    ],
+    [
+     "Cooling Current Input (A)",
+     "1.57 (max. 2.00)",
+     "2.09 (max. 2.70)"
+    ],
+    [
+     "Dehumidifying Capacity (L/Day)",
+     "20",
+     "30"
+    ],
+    [
+     "Cold Air Temperature Drop (°C)",
+     "10–16",
+     "10–16"
+    ],
+    [
+     "Operating Ambient Temperature (°C)",
+     "5–45",
+     "5–45"
+    ],
+    [
+     "Air Flow Volume (m³/h)",
+     "180",
+     "220"
+    ],
+    [
+     "Noise – Sound Power (dB(A))",
+     "38–46",
+     "38–48"
+    ],
+    [
+     "Noise – Sound Pressure (dB(A))",
+     "54–60",
+     "56–62"
+    ],
+    [
+     "Compressor",
+     "Reciprocating or rotary type",
+     "Reciprocating or rotary type"
+    ],
+    [
+     "Refrigerant",
+     "R290",
+     "R290"
+    ],
+    [
+     "Voltage / Frequency",
+     "220–240 V / 50 Hz",
+     "220–240 V / 50 Hz"
+    ],
+    [
+     "Standard Colours",
+     "White / Black",
+     "White / Black"
+    ],
+    [
+     "Energy Class (water + hose)",
+     "Class A+, 3.2 W/W",
+     "Class A+, 3.2 W/W"
+    ],
+    [
+     "Logistic Data"
+    ],
+    [
+     "Product Dimension (H×W×D, mm)",
+     "600 × 250 × 336",
+     "600 × 250 × 336"
+    ],
+    [
+     "Packaging Dimension (H×W×D, mm)",
+     "668 × 306 × 388",
+     "668 × 306 × 388"
+    ],
+    [
+     "N.W / G.W (kg)",
+     "14 / 16",
+     "14.5 / 16.5"
+    ],
+    [
+     "Container Loading (20'FT / 40'GP / 40'HQ)",
+     "320 / 645 / 860",
+     "320 / 645 / 860"
+    ]
+   ],
+   [
+    [
+     "Electronic Panel",
+     "YES"
+    ],
+    [
+     "ECO mode (compressor + water cooling)",
+     "YES"
+    ],
+    [
+     "Full-colour giftbox (orders below 2x40'HQ per model)",
+     "Optional"
+    ],
+    [
+     "Extra manual languages (beyond 3)",
+     "Optional"
+    ],
+    [
+     "Remote Control",
+     "YES"
+    ],
+    [
+     "Exhaust pipe",
+     "NO"
+    ],
+    [
+     "Window adaptor",
+     "NO"
+    ],
+    [
+     "External drainage water tray",
+     "YES"
+    ],
+    [
+     "Drain water pipe",
+     "NO"
+    ],
+    [
+     "Auto-restart",
+     "YES"
+    ],
+    [
+     "Protective film for transport",
+     "YES"
+    ],
+    [
+     "Quiet operation",
+     "YES"
+    ],
+    [
+     "Auto operation",
+     "YES"
+    ],
+    [
+     "Fan speed adjustable 3 steps and sleep",
+     "YES"
+    ],
+    [
+     "Auto vertical air louvers",
+     "YES"
+    ],
+    [
+     "Manual horizontal air louvers",
+     "YES"
+    ],
+    [
+     "Casters",
+     "YES"
+    ],
+    [
+     "Auto Diagnosis",
+     "YES"
+    ],
+    [
+     "Dust filter",
+     "YES"
+    ],
+    [
+     "Error display and protection",
+     "YES"
+    ],
+    [
+     "Flexible wiring connection",
+     "NO"
+    ],
+    [
+     "Defrosting",
+     "YES"
+    ],
+    [
+     "Low-voltage start-up",
+     "YES"
+    ],
+    [
+     "Independent Dehumidification",
+     "YES"
+    ],
+    [
+     "Energy-saving sleep mode",
+     "YES"
+    ],
+    [
+     "Two-direction airflow",
+     "YES"
+    ],
+    [
+     "ON timer",
+     "YES, 1-24 hours"
+    ],
+    [
+     "OFF timer",
+     "YES, 1-24 hours"
+    ],
+    [
+     "WiFi (TUYA module)",
+     "Optional"
+    ],
+    [
+     "Exhaust hose + adaptors, without window kit",
+     "Optional"
+    ],
+    [
+     "Exhaust hose + adaptors, with window kit",
+     "Optional"
+    ],
+    [
+     "Oil-smoke filter (kitchen use)",
+     "Optional"
+    ],
+    [
+     "Plasma air-purifying module",
+     "Optional"
+    ],
+    [
+     "Outer 2nd carton box",
+     "Optional"
+    ]
+   ]
+  ],
+  "slug": "pcx12r-22ma",
+  "prev": {
+   "name": "PCX5R-18MA",
+   "slug": "pcx5r-18ma"
+  },
+  "next": {
+   "name": "PC20S-22MA",
+   "slug": "pc20s-22ma"
+  },
+  "g": [
+   "pcx12r-22ma.jpg",
+   "pcx12r-22ma-2.jpg"
+  ]
+ },
+ {
+  "name": "PC20S-22MA",
+  "cat": "Portable Air Con.",
+  "desc": "7,000 and 9,000 BTU split portable air conditioners — indoor tower plus compact outdoor condenser, R290, optional heating.",
+  "bullets": [
+   "PC20S-22MA: 7,000 BTU · PC25S-22MA: 9,000 BTU",
+   "Split design – quiet indoor tower, condenser placed outside",
+   "MOQ: 20’FT*1 (mixed models)"
+  ],
+  "thumb": "pc20s-22ma.jpg",
+  "thumbs": [
+   "pc20s-22ma-2.jpg",
+   "pc20s-22ma-3.jpg"
+  ],
+  "tables": [
+   [
+    [
+     "PC20S-22MA"
+    ],
+    [
+     "Model (GS/CE)",
+     "PC20S-22MA",
+     "PC25S-22MA"
+    ],
+    [
+     "Control",
+     "Electric",
+     "Electric"
+    ],
+    [
+     "Power Source",
+     "220–240 V / 50 Hz or 220 V / 60 Hz",
+     "220–240 V / 50 Hz or 220 V / 60 Hz"
+    ],
+    [
+     "Cooling Capacity (W) / BTU",
+     "2,000 W (7,000 BTU)",
+     "2,500 W (9,000 BTU)"
+    ],
+    [
+     "Cooling Power Consumption (W)",
+     "625",
+     "780"
+    ],
+    [
+     "EER (W/W)",
+     "3.2",
+     "3.2"
+    ],
+    [
+     "SEER (W/W)",
+     "4.0",
+     "4.0"
+    ],
+    [
+     "Heating Capacity – optional (W) / BTU",
+     "2,000 W (7,000 BTU)",
+     "2,500 W (9,000 BTU)"
+    ],
+    [
+     "Heating Power Consumption – optional (W)",
+     "580",
+     "680"
+    ],
+    [
+     "COP (W/W)",
+     "3.5",
+     "3.6"
+    ],
+    [
+     "Moisture Removed (L/Day, 30°C RH80%)",
+     "30",
+     "50"
+    ],
+    [
+     "Indoor / Outdoor Air Volume (m³/h)",
+     "360 / 600",
+     "360 / 600"
+    ],
+    [
+     "Noise – Indoor / Outdoor Sound Power (dB(A))",
+     "38–46 / 48",
+     "38–46 / 48"
+    ],
+    [
+     "Timer Setting",
+     "0–24 hrs",
+     "0–24 hrs"
+    ],
+    [
+     "Compressor",
+     "Rotary type",
+     "Rotary type"
+    ],
+    [
+     "Refrigerant",
+     "R290",
+     "R290"
+    ],
+    [
+     "Use Area (m²)",
+     "15",
+     "20"
+    ],
+    [
+     "Logistic Data"
+    ],
+    [
+     "Indoor Unit Dimension (H×W×D, mm)",
+     "600 × 250 × 335",
+     "600 × 250 × 335"
+    ],
+    [
+     "Outdoor Unit Dimension (H×W×D, mm)",
+     "350 × 335 × 220",
+     "350 × 335 × 220"
+    ],
+    [
+     "Packing Dimension (H×W×D, mm)",
+     "672 × 536 × 387",
+     "672 × 536 × 387"
+    ],
+    [
+     "Indoor / Outdoor Net Weight (kg)",
+     "16 / 4",
+     "17 / 4"
+    ],
+    [
+     "Gross Weight (kg)",
+     "24",
+     "25"
+    ],
+    [
+     "Container Loading (20'FT / 40'GP / 40'HQ)",
+     "190 / 396 / 528",
+     "190 / 396 / 528"
+    ]
+   ],
+   [
+    [
+     "Electronic Panel",
+     "YES"
+    ],
+    [
+     "ECO mode (compressor + water cooling)",
+     "YES"
+    ],
+    [
+     "Full-colour giftbox (orders below 2x40'HQ per model)",
+     "Optional"
+    ],
+    [
+     "Extra manual languages (beyond 3)",
+     "Optional"
+    ],
+    [
+     "Remote Control",
+     "YES"
+    ],
+    [
+     "Auto-restart",
+     "YES"
+    ],
+    [
+     "Protective film for transport",
+     "YES"
+    ],
+    [
+     "Quiet operation",
+     "YES"
+    ],
+    [
+     "Auto operation",
+     "YES"
+    ],
+    [
+     "Fan speed adjustable 3 steps and sleep",
+     "YES"
+    ],
+    [
+     "Auto vertical air louvers",
+     "YES"
+    ],
+    [
+     "Manual horizontal air louvers",
+     "YES"
+    ],
+    [
+     "Casters",
+     "YES"
+    ],
+    [
+     "Auto Diagnosis",
+     "YES"
+    ],
+    [
+     "Dust filter",
+     "YES"
+    ],
+    [
+     "Error display and protection",
+     "YES"
+    ],
+    [
+     "Flexible wiring connection",
+     "NO"
+    ],
+    [
+     "Defrosting",
+     "YES"
+    ],
+    [
+     "Low-voltage start-up",
+     "YES"
+    ],
+    [
+     "Independent Dehumidification",
+     "YES"
+    ],
+    [
+     "Energy-saving sleep mode",
+     "YES"
+    ],
+    [
+     "Two-direction airflow",
+     "YES"
+    ],
+    [
+     "ON timer",
+     "YES, 1-24 hours"
+    ],
+    [
+     "OFF timer",
+     "YES, 1-24 hours"
+    ],
+    [
+     "WiFi (TUYA module)",
+     "Optional"
+    ],
+    [
+     "Heating function",
+     "Optional"
+    ]
+   ]
+  ],
+  "slug": "pc20s-22ma",
+  "prev": {
+   "name": "PCX12R-22MA",
+   "slug": "pcx12r-22ma"
+  },
+  "next": {
+   "name": "PC70R-MMA",
+   "slug": "pc70r-mma"
+  },
+  "g": [
+   "pc20s-22ma.jpg",
+   "pc20s-22ma-2.jpg",
+   "pc20s-22ma-3.jpg"
+  ]
+ },
+ {
+  "name": "PC70R-MMA",
+  "cat": "Portable Air Con.",
+  "desc": "24,000 and 30,000 BTU high-capacity portable air conditioners for large halls, tents and industrial spots — 950 m³/h airflow, 12 m throw.",
+  "bullets": [
+   "PC70R-MMA: 24,000 BTU (7.0 kW) · PC90R-MMA: 30,000 BTU (9.0 kW)",
+   "High-capacity spot cooling · 950 m³/h · 12 m air throw",
+   "MOQ: 40’HQ*1"
+  ],
+  "thumb": "pc70r-mma.jpg",
+  "thumbs": [
+   "pc70r-mma-2.jpg"
+  ],
+  "tables": [
+   [
+    [
+     "PC70R-MMA"
+    ],
+    [
+     "Model (GS/CE)",
+     "PC70R-MMA",
+     "PC90R-MMA"
+    ],
+    [
+     "Cooling Capacity (kW)",
+     "7.0",
+     "9.0"
+    ],
+    [
+     "Cooling Capacity (BTU)",
+     "24,000",
+     "30,000"
+    ],
+    [
+     "Cooling Power Input (W)",
+     "2,500",
+     "2,800"
+    ],
+    [
+     "Cooling Current Input (A)",
+     "11.4",
+     "12.7"
+    ],
+    [
+     "Measured EER",
+     "2.6",
+     "2.6"
+    ],
+    [
+     "EER Energy Class (35/24°C)",
+     "Class A",
+     "Class A"
+    ],
+    [
+     "Annual Energy Consumption (kWh)",
+     "1,250",
+     "1,400"
+    ],
+    [
+     "Dehumidifying Capacity (L/Day)",
+     "110",
+     "120"
+    ],
+    [
+     "Thermostat Range (°C)",
+     "17–35",
+     "17–35"
+    ],
+    [
+     "Air Flow Volume (m³/h)",
+     "950",
+     "950"
+    ],
+    [
+     "Air Flow Distance (m)",
+     "12",
+     "12"
+    ],
+    [
+     "Noise – Sound Power, Low/Mid/High (dB(A))",
+     "52 / 55 / 58",
+     "52 / 55 / 58"
+    ],
+    [
+     "Rotary Compressor",
+     "Rechi or Toshiba",
+     "Rechi or Toshiba"
+    ],
+    [
+     "Refrigerant",
+     "R410a or R290",
+     "R410a or R290"
+    ],
+    [
+     "Voltage / Frequency",
+     "220 V / 50 or 60 Hz",
+     "220 V / 50 or 60 Hz"
+    ],
+    [
+     "Standard Colours",
+     "White / Black / Grey",
+     "White / Black / Grey"
+    ],
+    [
+     "Logistic Data"
+    ],
+    [
+     "Product Dimension (W×D×H, mm)",
+     "540 × 695 × 1,140",
+     "540 × 695 × 1,140"
+    ],
+    [
+     "Packaging Dimension (W×D×H, mm)",
+     "590 × 780 × 1,310",
+     "590 × 780 × 1,310"
+    ],
+    [
+     "N.W / G.W (kg)",
+     "65 / 70",
+     "68 / 73"
+    ],
+    [
+     "Container Loading (20'FT)",
+     "119",
+     "119"
+    ]
+   ],
+   [
+    [
+     "Electronic Panel",
+     "YES"
+    ],
+    [
+     "Warranty card",
+     "YES"
+    ],
+    [
+     "Standard remote control",
+     "YES"
+    ],
+    [
+     "Exhaust pipe",
+     "Diameter 200mm *Length 1.5m"
+    ],
+    [
+     "Longer exhaust pipe (2 m / 3 m / 4 m, packed separately)",
+     "Optional"
+    ],
+    [
+     "Sliding-window adaptor (3 pcs/set)",
+     "Optional"
+    ],
+    [
+     "Cold-air outlet adaptor (vent indoors, or into equipment)",
+     "Optional"
+    ],
+    [
+     "Dual-hose kit (whole-room cooling)",
+     "Optional"
+    ],
+    [
+     "Drain water pipe",
+     "Optional"
+    ],
+    [
+     "Quiet operation",
+     "YES"
+    ],
+    [
+     "Auto operation",
+     "YES"
+    ],
+    [
+     "Fan speed adjustable (3 steps)",
+     "YES"
+    ],
+    [
+     "Auto vertical air louvers",
+     "Optional"
+    ],
+    [
+     "Manual horizontal air louvers",
+     "YES"
+    ],
+    [
+     "Casters",
+     "YES"
+    ],
+    [
+     "Auto Diagnosis",
+     "YES"
+    ],
+    [
+     "Dust filter",
+     "YES"
+    ],
+    [
+     "Error display and protection",
+     "YES"
+    ],
+    [
+     "Flexible wiring connection",
+     "NO"
+    ],
+    [
+     "Defrosting",
+     "YES"
+    ],
+    [
+     "Low-voltage start-up",
+     "YES"
+    ],
+    [
+     "Independent Dehumidification",
+     "YES"
+    ],
+    [
+     "Auto-restart",
+     "Optional"
+    ],
+    [
+     "Energy-saving sleep mode",
+     "YES"
+    ],
+    [
+     "ON timer",
+     "YES"
+    ],
+    [
+     "OFF timer",
+     "YES"
+    ]
+   ]
+  ],
+  "slug": "pc70r-mma",
+  "prev": {
+   "name": "PC20S-22MA",
+   "slug": "pc20s-22ma"
+  },
+  "next": {
+   "name": "PCI35R-25MAS",
+   "slug": "pci35r-25mas"
+  },
+  "g": [
+   "pc70r-mma.jpg",
+   "pc70r-mma-2.jpg"
+  ]
+ },
+ {
+  "name": "PCI35R-25MAS",
+  "cat": "Portable Air Con.",
+  "desc": "12,000 BTU DC-inverter split portable air conditioner with SEER 5.5, R290, low-voltage start and optional WiFi — the quietest tier of the range.",
+  "bullets": [
+   "PCI35R-25MAS: 12,000 BTU · DC inverter · SEER 5.5",
+   "Split design – outdoor condenser, indoor sound power 38–46 dB(A)",
+   "MOQ: 20’FT*1"
+  ],
+  "thumb": "pci35r-25mas.jpg",
+  "thumbs": [
+   "pci35r-25mas-2.jpg",
+   "pci35r-25mas-3.jpg"
+  ],
+  "tables": [
+   [
+    [
+     "PCI35R-25MAS"
+    ],
+    [
+     "Model (GS/CE)",
+     "PCI35R-25MAS"
+    ],
+    [
+     "Control",
+     "Electric (WiFi optional)"
+    ],
+    [
+     "Power Source",
+     "220–240 V / 50 Hz or 220 V / 60 Hz"
+    ],
+    [
+     "Cooling Capacity (W) / BTU",
+     "3,500 W (12,000 BTU)"
+    ],
+    [
+     "Cooling Power Consumption (W)",
+     "1,090"
+    ],
+    [
+     "EER (W/W)",
+     "3.2"
+    ],
+    [
+     "SEER (W/W)",
+     "5.5"
+    ],
+    [
+     "Heating Capacity – optional (W) / BTU",
+     "3,500 W (11,000 BTU)"
+    ],
+    [
+     "Heating Power Consumption – optional (W)",
+     "880"
+    ],
+    [
+     "COP (W/W)",
+     "3.6"
+    ],
+    [
+     "Moisture Removed (L/Day, 30°C RH80%)",
+     "60"
+    ],
+    [
+     "Indoor / Outdoor Air Volume (m³/h)",
+     "450 / 800"
+    ],
+    [
+     "Noise – Indoor / Outdoor Sound Power (dB(A))",
+     "38–46 / 54"
+    ],
+    [
+     "Timer Setting",
+     "0–24 hrs"
+    ],
+    [
+     "Compressor",
+     "DC inverter rotary type"
+    ],
+    [
+     "Refrigerant",
+     "R290"
+    ],
+    [
+     "Use Area (m²)",
+     "25"
+    ]
+   ],
+   [
+    [
+     "Electronic Panel",
+     "YES"
+    ],
+    [
+     "ECO mode (compressor + water cooling)",
+     "YES"
+    ],
+    [
+     "Full-colour giftbox (orders below 2x40'HQ per model)",
+     "Optional"
+    ],
+    [
+     "Extra manual languages (beyond 3)",
+     "Optional"
+    ],
+    [
+     "Remote Control",
+     "YES"
+    ],
+    [
+     "Auto-restart",
+     "YES"
+    ],
+    [
+     "Protective film for transport",
+     "YES"
+    ],
+    [
+     "Quiet operation",
+     "YES"
+    ],
+    [
+     "Auto operation",
+     "YES"
+    ],
+    [
+     "Fan speed adjustable 3 steps and sleep",
+     "YES"
+    ],
+    [
+     "Auto vertical air louvers",
+     "NO"
+    ],
+    [
+     "Manual horizontal air louvers",
+     "YES"
+    ],
+    [
+     "Casters",
+     "YES"
+    ],
+    [
+     "Auto Diagnosis",
+     "YES"
+    ],
+    [
+     "Dust filter",
+     "YES"
+    ],
+    [
+     "Error display and protection",
+     "YES"
+    ],
+    [
+     "Flexible wiring connection",
+     "NO"
+    ],
+    [
+     "Defrosting",
+     "YES"
+    ],
+    [
+     "Low-voltage start-up",
+     "YES"
+    ],
+    [
+     "Independent Dehumidification",
+     "YES"
+    ],
+    [
+     "Energy-saving sleep mode",
+     "YES"
+    ],
+    [
+     "Two-direction airflow",
+     "YES"
+    ],
+    [
+     "ON timer",
+     "YES, 1-24 hours"
+    ],
+    [
+     "OFF timer",
+     "YES, 1-24 hours"
+    ],
+    [
+     "WiFi (TUYA module)",
+     "Optional"
+    ],
+    [
+     "Heating function",
+     "Optional"
+    ],
+    [
+     "Wood-effect top / side / bottom panels",
+     "Optional"
+    ]
+   ]
+  ],
+  "slug": "pci35r-25mas",
+  "prev": {
+   "name": "PC70R-MMA",
+   "slug": "pc70r-mma"
+  },
+  "next": {
    "name": "PD-12AE",
    "slug": "pd-12ae"
   },
   "g": [
-   "5f48c858dc77e.png"
+   "pci35r-25mas.jpg",
+   "pci35r-25mas-2.jpg",
+   "pci35r-25mas-3.jpg"
   ]
  },
  {
@@ -5766,8 +7008,8 @@
   "thumb": "68d600923b5d2.jpg",
   "slug": "pd-12ae",
   "prev": {
-   "name": "PC-FMA",
-   "slug": "pc-fma"
+   "name": "PCI35R-25MAS",
+   "slug": "pci35r-25mas"
   },
   "next": {
    "name": "PD-K series (Multiple Panel Design)",

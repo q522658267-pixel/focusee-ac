@@ -327,21 +327,8 @@ def product_ld(p):
         "manufacturer": {"@id": SITE + "#organization"},
         "image": imgs,
         "url": SITE + 'product-' + p['slug'] + '.html',
-        "offers": {
-            "@type": "Offer",
-            "url": SITE + 'product-' + p['slug'] + '.html',
-            "availability": "https://schema.org/InStock",
-            "itemCondition": "https://schema.org/NewCondition",
-            "priceCurrency": "USD",
-            "priceSpecification": {
-                "@type": "PriceSpecification",
-                "priceCurrency": "USD",
-                "valueAddedTaxIncluded": False,
-            },
-            "seller": {"@id": SITE + "#organization"},
-            "businessFunction": "https://schema.org/Sell",
-            "eligibleCustomerType": "https://schema.org/BusinessEntity",
-        },
+        # No "offers" node on purpose: prices are quoted per order, never published.
+        # Emitting a priceCurrency without a price is worse than emitting none.
     }
     if p.get('bullets'):
         node["additionalProperty"] = [
