@@ -3,3 +3,7 @@ _unused/
 
 # Local Netlify folder
 .netlify
+
+# Internal strategy docs — GitHub Pages serves the whole repo tree,
+# so these live outside the repo (see ../focusee-seo-docs/).
+docs/
