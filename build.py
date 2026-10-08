@@ -78,6 +78,12 @@ LOGO = '68ca51498f2ea.png'
 GSC_VERIFY = ''
 # Bing Webmaster Tools site-verification meta content (msvalidate.01).
 BING_VERIFY = '3D0F53966638CB224E00DD2A93FE4BFC'
+# English <-> French page pairs for hreflang annotations.
+I18N = {
+ 'applications/france-distributor-oem.html': 'applications/fr-climatiseur-portable-oem.html',
+ 'applications/eu-ce-certification.html': 'applications/fr-certification-ce.html',
+}
+I18N_REV = {v: k for k, v in I18N.items()}
 def gallery(p):
     g=[]
     for im in ([p.get('thumb')] + p.get('thumbs',[])):
@@ -86,7 +92,7 @@ def gallery(p):
     return g[:6]
 
 HEAD_T = '''<!DOCTYPE html>
-<html lang="en">
+<html lang="{{LANG}}">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -97,6 +103,7 @@ HEAD_T = '''<!DOCTYPE html>
 {{GVERIFY}}
 {{BVERIFY}}
 <link rel="canonical" href="{{CANON}}">
+{{ALTERNATES}}
 <meta name="theme-color" content="#0B5CAB">
 <meta property="og:type" content="{{OGT}}">
 <meta property="og:site_name" content="Focusee Company Limited">
@@ -184,6 +191,10 @@ def footer(r=''):
         <li><a href="{r}applications/france-distributor-oem.html">France Market OEM</a></li>
         <li><a href="{r}blog/btu-sizing-guide.html">BTU Sizing Guide</a></li>
         <li><a href="{r}blog/dehumidifier-capacity-guide.html">Dehumidifier Capacity</a></li>
+        <li><a href="{r}blog/server-room-heat-load.html">Server Room Heat Load</a></li>
+        <li><a href="{r}blog/tent-rv-ac-power.html">Tent &amp; RV AC Power</a></li>
+        <li><a href="{r}applications/fr-climatiseur-portable-oem.html">Climatiseur portable (FR)</a></li>
+        <li><a href="{r}applications/fr-certification-ce.html">Certification CE (FR)</a></li>
       </ul></div>
       <div><h4>Contact</h4><ul>
         <li style="line-height:1.6">{esc(ADDRESS)}</li>
@@ -421,13 +432,22 @@ CATEGORY_WORD = {
     'Accessory': 'Air conditioner accessory',
 }
 
-def page(fname, title, desc, body, active='', r='', canon=None, ogt='website', ogi=None, jsonld='', path=None):
+def page(fname, title, desc, body, active='', r='', canon=None, ogt='website', ogi=None, jsonld='', path=None, lang='en'):
     """path: URL path relative to SITE, e.g. 'products.html'. Used for canonical."""
     if canon is None:
         canon = SITE + (path or fname)
+    # hreflang alternates for paired EN/FR pages
+    alt = ''
+    if fname in I18N or fname in I18N_REV:
+        en = SITE + (I18N_REV.get(fname, fname) if fname in I18N_REV else fname)
+        fr = SITE + (I18N.get(fname, fname) if fname in I18N else I18N_REV[fname])
+        alt = (f'<link rel="alternate" hreflang="en" href="{en}">\n'
+               f'<link rel="alternate" hreflang="fr" href="{fr}">\n'
+               f'<link rel="alternate" hreflang="x-default" href="{en}">')
     h = (HEAD_T.replace('{{T}}', esca(title))
                .replace('{{D}}', esca(desc))
                .replace('{{R}}', r)
+               .replace('{{LANG}}', lang)
                .replace('{{CANON}}', esca(canon))
                .replace('{{OGT}}', ogt)
                .replace('{{OGI}}', esca(ogi or OG_IMAGE))
@@ -437,6 +457,7 @@ def page(fname, title, desc, body, active='', r='', canon=None, ogt='website', o
                .replace('{{BVERIFY}}',
                          ('<meta name="msvalidate.01" content="%s">' % esca(BING_VERIFY))
                          if BING_VERIFY else '')
+               .replace('{{ALTERNATES}}', alt)
                .replace('{{JSONLD}}', jsonld))
     htmlout = h + header(active, r) + body + footer(r) + FOOT_T.replace('{{R}}', r)
     dest = os.path.join(ROOT, fname)
@@ -1213,6 +1234,194 @@ APP_PAGES = [
   models=[],
   models_head='',
  ),
+ # ---- French-language market pages (hreflang fr, targets French-language search) ----
+ dict(
+  fname='applications/fr-climatiseur-portable-oem.html',
+  path='applications/fr-climatiseur-portable-oem.html',
+  lang='fr',
+  title='Climatiseur portable en marque blanche pour le marché français | Focusee',
+  desc='Climatiseurs portables en OEM et marque blanche pour les revendeurs et distributeurs français : 230 V / 50 Hz prise Type F, notice en français et étiquette énergie, conformité ErP, conteneurs mixtes et délais.',
+  h1='Climatiseurs portables pour le marché français',
+  eyebrow='France',
+  lede='Le canal de distribution français — magasins d’appareils, bricolage et électronique — achète le climatiseur portable comme une catégorie saisonnière et en marque propre. Cette page présente la configuration et la documentation attendues par les acheteurs français, et la façon dont nous les livrons.',
+  blocks=[
+   ('h2', 'Ce qu’attend le marché français'),
+   ('p', 'Les acheteurs français spécifient 230 V / 50 Hz avec une prise Type F (Schuko), une notice utilisateur et une étiquette en français, ainsi que l’étiquette énergie UE. La demande est saisonnière et culmine avant l’été, aussi le délai et un programme de réapprovisionnement planifié comptent autant que l’appareil lui-même.'),
+   ('ul', [
+     '230 V / 50 Hz avec prise Type F (Schuko)',
+     'Notice, étiquette et texte d’emballage en français',
+     'Étiquette énergie et fiche produit UE pour la France',
+     'Marquage CE avec dossier technique complet',
+     'Réfrigérant à faible PRG R290 / R32 pour l’UE',
+   ]),
+   ('h2', 'Les canaux que nous servons'),
+   ('p', 'Focusee fournit importateurs, distributeurs et marques de retail sur le marché français. Qu’il s’agisse d’une enseigne d’appareils, d’un distributeur bricolage ou d’une place de marché en ligne, la sélection des modèles et l’emballage sont préparés pour le canal.'),
+   ('h2', 'Marque blanche et propre'),
+   ('p', 'La plupart des programmes français fonctionnent en marque blanche sur une plateforme éprouvée : votre logo, carton, étiquette et notice, avec tension, prise et réfrigérant paramétrés pour la France. Un programme OEM complet avec design industriel propre est possible pour les acheteurs ayant le volume nécessaire.'),
+   ('h2', 'Gammes de puissance pour la France'),
+   ('p', 'Les appartements et petites maisons françaises favorisent les modèles compacts de 7 000 à 12 000 BTU, tandis que les grands appartements et maisons de ville prennent 12 000 à 24 000 BTU. Nous couvrons toute la gamme et pouvons recommander le mix d’une première commande selon votre clientèle.'),
+   ('h2', 'Logistique et délais'),
+   ('ul', [
+     'Conteneurs mixtes — climatiseurs, déshumidificateurs et purificateurs combinés',
+     'Production typique de 30 à 45 jours après validation échantillon et BAT',
+     'FOB ou CIF vers un port français, avec documents de dédouanement',
+     'Commandes répétées planifiées avant la montée de printemps',
+   ]),
+   ('note', 'Planifiez la première commande bien avant le pic saisonnier. La certification et le BAT sont sur le chemin critique, et les créneaux de production se resserrent à partir de la fin de l’hiver.'),
+  ],
+  faqs=[
+   ('Quelle tension et prise les acheteurs français exigent-ils ?',
+    '230 V / 50 Hz avec prise Type F (Schuko), notice et étiquette en français, et étiquette énergie UE. Nous paramétrons tension, prise et notice à l’assemblage pour le marché français.'),
+   ('Pouvez-vous livrer sous notre propre marque pour la France ?',
+    'Oui. Les unités en marque blanche sont livrées avec votre carton, étiquette, notice et étiquette énergie, le tout préparé pour la conformité UE et la langue française.'),
+   ('Quelles puissances se vendent en France ?',
+    'Les modèles compacts 7 000 à 12 000 BTU dominent pour les appartements, et 12 000 à 24 000 BTU pour les grandes habitations. Nous pouvons recommander un mix de première commande selon votre clientèle.'),
+   ('Quel est le délai pour une commande française ?',
+    'Typiquement 30 à 45 jours après validation échantillon et BAT, plus le transport. Comme la demande est saisonnière, planifiez la première commande avant la montée de printemps.'),
+   ('Peut-on mélanger les modèles dans un conteneur vers la France ?',
+    'Oui. Climatiseurs, déshumidificateurs et purificateurs peuvent être combinés dans un seul conteneur avec un plan de chargement, ce qui convient à un assortiment français multi-catégories.'),
+   ('Gérez-vous les documents CE et ErP ?',
+    'Oui. Nous fournissons le marquage CE avec le dossier technique, l’étiquette énergie UE et la fiche, ainsi que la documentation réfrigérant nécessaire à l’importation française.'),
+  ],
+  models=['PCX5R-18MA', 'PC-LMA', 'PC20S-22MA'],
+  models_head='Modèles compacts à moyens adaptés au marché français',
+ ),
+ dict(
+  fname='applications/fr-certification-ce.html',
+  path='applications/fr-certification-ce.html',
+  lang='fr',
+  title='Conformité CE, ErP et F-Gas pour l’importateur UE | Focusee',
+  desc='Ce dont les importateurs UE ont besoin pour vendre climatiseurs portables, déshumidificateurs et purificateurs : marquage CE, étiquette énergie ErP, règles F-Gas sur le réfrigérant, dossier technique et documents, fournis par Focusee.',
+  h1='Mettre un climatiseur portable sur le marché de l’UE',
+  eyebrow='Conformité UE',
+  lede='Vendre un climatiseur portable, un déshumidificateur ou un purificateur dans l’Union européenne implique le marquage CE, les règles d’étiquetage énergétique ErP et les exigences F-Gas sur le réfrigérant. Cette page décrit la documentation et la façon dont nous soutenons les importateurs et marques UE.',
+  blocks=[
+   ('h2', 'Le marquage CE : le socle du marché UE'),
+   ('p', 'Chaque unité mise sur le marché UE doit porter un marquage CE valide, appuyé par un dossier technique : la Déclaration de conformité UE, les normes harmonisées applicables pour la sécurité électrique et la CEM, et les rapports d’essai correspondants. Le marquage est l’affirmation de l’importateur que le produit respecte la législation UE.'),
+   ('ul', [
+     'Directive Basse Tension (LVD) — sécurité électrique',
+     'Directive CEM — compatibilité électromagnétique',
+     'RoHS — restriction des substances dangereuses',
+     'REACH — documentation sur les substances chimiques',
+     'Exigences éco-conception et étiquetage énergétique',
+   ]),
+   ('h2', 'Étiquetage énergétique ErP'),
+   ('p', 'Les climatiseurs portables et déshumidificateurs relèvent des règles UE d’éco-conception et d’étiquetage. Un produit conforme est livré avec l’étiquette énergie correcte et la fiche produit, et les valeurs de rendement saisonnier sont consignées au dossier technique.'),
+   ('h2', 'F-Gas et choix du réfrigérant'),
+   ('p', 'Le règlement F-Gas restreint les réfrigérants à fort PRG. Focusee construit des unités portables avec les réfrigérants à faible PRG R290 (propane) et R32, choisis par modèle et par marché, avec la charge et la documentation nécessaires au dédouanement.'),
+   ('note', 'Les règles sur les réfrigérants évoluent. Confirmez les limites de PRG en vigueur et les restrictions par État membre avant de figer la nomenclature.'),
+   ('h2', 'Le dossier technique'),
+   ('p', 'L’importateur est responsable du produit sur le marché UE. Conservez la documentation technique, la Déclaration de conformité et les rapports d’essai, et vérifiez que les valeurs de l’étiquette correspondent à l’unité testée. Nous remettons les rapports de lot avec la commande.'),
+   ('h2', 'UKCA conjointement au CE'),
+   ('p', 'Pour la Grande-Bretagne, la marque équivalente est UKCA. De nombreux modèles UE peuvent être préparés pour les deux marchés ; dites-nous si vous vendez aussi au Royaume-Uni.'),
+   ('h2', 'Comment Focusee soutient les importateurs UE'),
+   ('ul', [
+     'Marquage CE avec dossier technique complet et Déclaration UE',
+     'Étiquette énergie ErP et fiche produit par langue de marché',
+     'Choix et documentation du réfrigérant R290 / R32 à faible PRG',
+     'Rapports d’essai de lot remis avec l’expédition',
+     'Tension, prise (Type F) et langue de notice paramétrées pour l’UE',
+   ]),
+  ],
+  faqs=[
+   ('Que requiert concrètement le marquage CE pour un climatiseur portable ?',
+    'Un CE valide s’appuie sur un dossier technique : la Déclaration de conformité UE plus les rapports d’essai pour la sécurité électrique (LVD), la CEM, la RoHS et les règles d’éco-conception applicables. L’importateur détient ce dossier et doit pouvoir le présenter.'),
+   ('Une étiquette énergie est-elle nécessaire pour l’UE ?',
+    'Oui, pour les climatiseurs portables et déshumidificateurs. Le produit est livré avec l’étiquette UE correcte et la fiche produit, et les valeurs de rendement saisonnier sont consignées au dossier technique.'),
+   ('Quel réfrigérant utilisez-vous pour l’UE ?',
+    'Nous construisons avec les réfrigérants à faible PRG R290 et R32, choisis par modèle et par marché pour respecter le règlement F-Gas. La charge et la documentation sont fournies pour le dédouanement.'),
+   ('Un même modèle peut-il être vendu en UE et au Royaume-Uni ?',
+    'Souvent oui. L’UE utilise le CE et la Grande-Bretagne l’UKCA ; de nombreux modèles peuvent être préparés pour les deux. Précisez-nous si vous vendez sur les deux marchés.'),
+   ('Quels documents recevez-vous avec l’expédition ?',
+    'Les rapports d’essai de lot, la Déclaration de conformité et les visuels d’étiquetage sont remis avec la commande afin que votre dossier soit complet au moment de l’expédition.'),
+   ('Puis-je commander ces produits sous ma propre marque pour l’UE ?',
+    'Oui. Les unités en marque blanche sont livrées avec votre carton, étiquette, notice et étiquette énergie, tous préparés pour la conformité UE.'),
+  ],
+  models=[],
+  models_head='',
+ ),
+ # ---- More English buyer-guide blog posts (long-tail) ----
+ dict(
+  fname='blog/server-room-heat-load.html',
+  path='blog/server-room-heat-load.html',
+  title='How to Calculate Server Room Cooling Load (Watts × 3.412) | Focusee',
+  desc='A practical server-room heat-load calculation: convert equipment watts to BTU/h, add margin for solar gain and people, and size a portable spot cooler to the room.',
+  h1='Calculating a server room cooling load',
+  eyebrow='Guide',
+  lede='Electrical equipment turns almost all of its input power into heat, so a server room’s cooling load can be calculated directly from its wattage. This guide turns that wattage into a BTU figure and a sensible spot-cooler size.',
+  blocks=[
+   ('h2', 'The core conversion'),
+   ('p', 'Because IT and electrical equipment convert input power almost entirely to heat, the load is simply the equipment wattage. Convert it to cooling units with the factor:'),
+   ('note', 'BTU/h = equipment watts × 3.412'),
+   ('p', 'Example: a 3 kW rack draws 3,000 W. 3,000 × 3.412 = 10,236 BTU/h. That is the heat the cooler must remove before any extra gains.'),
+   ('h2', 'Add margin for the room'),
+   ('p', 'The raw equipment load is only the start. Add 20-30 % for solar gain through windows, lighting, people in the room and duct losses, then round up to the nearest available capacity.'),
+   ('table', ['Installation', 'Typical IT / electrical load', 'Suggested capacity'], [
+     ['Wall-mounted comms cabinet', '0.5 - 1.5 kW', '4,000 - 7,000 BTU'],
+     ['Small rack (1-3 racks)', '2 - 4 kW', '12,000 - 18,000 BTU'],
+     ['Server room / switchgear room', '5 - 8 kW', '24,000 - 30,000 BTU'],
+   ]),
+   ('h2', 'Why a portable spot cooler fits'),
+   ('p', 'Where a split system cannot be installed — rented premises, a cabinet added after the room was built, or standby capacity for equipment that cannot go offline — a portable spot cooler is the fastest way to remove heat. No outdoor condenser, no refrigerant pipework, running the same day.'),
+   ('h2', 'Deliver the cold air where it matters'),
+   ('p', 'Point the supply louvre at the equipment intake, or use a cold-air duct kit to reach the front of a rack. Keep return air away from the cold supply to avoid short-cycling, and blank unused rack space so cold air is not lost.'),
+   ('h2', 'Continuous operation'),
+   ('p', 'For round-the-clock duty specify a condensate pump or gravity drain so the unit does not stop on a full tank. The models used here are built for long duty, but filters should be cleaned at the interval in the manual.'),
+  ],
+  faqs=[
+   ('How do I convert server watts to BTU?',
+    'Multiply the equipment wattage by 3.412 to get BTU/h. A 3 kW rack therefore needs roughly 10,200 BTU/h before any extra margin for solar gain or people.'),
+   ('How much margin should I add?',
+    'Add 20-30 % for windows, lighting, occupants and duct losses, then round up to the nearest available capacity. A 3 kW rack typically lands at a 12,000-14,000 BTU unit.'),
+   ('Can a portable unit cool a server room?',
+    'For small and mid-size loads, yes. A spot cooler handles a comms cabinet or small rack room well; beyond roughly 8-10 kW a dedicated precision system is the right answer and the portable becomes standby.'),
+   ('Does it need a drain?',
+    'The internal tank is fine for short jobs. For continuous operation choose the condensate pump or gravity-drain option so the unit does not shut down when the tank fills.'),
+   ('Can I duct cold air to a rack?',
+    'Yes. A cold-air duct kit delivers air from the supply louvre directly to the front of the rack, which is far more effective than cooling the whole room.'),
+  ],
+  models=[],
+  models_head='',
+ ),
+ dict(
+  fname='blog/tent-rv-ac-power.html',
+  path='blog/tent-rv-ac-power.html',
+  title='Powering a Tent or RV Air Conditioner: Hook-ups, Generators, 12V | Focusee',
+  desc='How to power a portable air conditioner in a tent, caravan or motorhome: campsite hook-up amperage, generator sizing, 12 V battery and inverter options, and voltage configured for your market.',
+  h1='Powering a tent or RV air conditioner',
+  eyebrow='Guide',
+  lede='A portable air conditioner is only useful if the pitch or vehicle can power it. This guide covers campsite hook-ups, generators, 12 V options and the start-up current that catches first-time buyers out.',
+  blocks=[
+   ('h2', 'Campsite hook-ups'),
+   ('p', 'EU and UK campsite hook-ups are normally 230-240 V at 6 A or 16 A. Confirm the site amperage before selecting a model, because a unit that draws more than the supply allows will trip the post.'),
+   ('ul', [
+     'Compact units draw roughly 400-700 W',
+     'Mid-size camping units 700-1,200 W',
+     'Always check the hook-up rating, not just the voltage',
+   ]),
+   ('h2', 'Generators'),
+   ('p', 'Off-grid users run an AC unit from a small generator. Size the generator for the unit’s start-up current, which is several times the running current for the first second, not for the running watts alone.'),
+   ('h2', '12 V and battery banks'),
+   ('p', 'Compact DC units can run from a 12 V or 24 V battery bank through a suitable inverter. AC units generally need a hook-up or a generator because start-up current is too high for a small battery alone.'),
+   ('h2', 'Voltage and market'),
+   ('p', 'Voltage, plug type and frequency are configured at assembly for the destination market — Type F for the EU, Type G for the UK, Type I for AU / NZ and Type A/B for North America. Tell us where the unit will be used and we set it.'),
+   ('note', 'Start-up (locked-rotor) current is the figure that trips breakers. Size supply and cabling for that, not the running wattage.'),
+  ],
+  faqs=[
+   ('Will a camping air conditioner run from a battery?',
+    'Compact DC models can run from a 12 V or 24 V battery bank through a suitable inverter. AC units generally need a campsite hook-up or a generator because start-up current is several times the running current.'),
+   ('What campsite amperage do I need?',
+    'EU and UK hook-ups are typically 6 A or 16 A at 230-240 V. Confirm the site rating before choosing a model so the unit does not trip the supply.'),
+   ('How big a generator do I need?',
+    'Size it for the start-up current, which is several times the running current for the first moment, not the running watts alone.'),
+   ('Can you configure voltage for my market?',
+    'Yes. Voltage, plug type and frequency are set at assembly — Type F for the EU, Type G for the UK, Type I for AU / NZ, Type A/B for North America.'),
+   ('Why does my breaker trip on start-up?',
+    'The compressor draws several times its running current for a moment at start-up. Size the supply and cabling for that locked-rotor current, not the running wattage.'),
+  ],
+  models=[],
+  models_head='',
+ ),
 ]
 
 def build_app(spec):
@@ -1290,7 +1499,8 @@ def build_app(spec):
         jsonld += '\n' + faq_ld
     return page(spec['fname'], spec['title'], spec['desc'], body,
                 active='', r=r, canon=SITE + spec['path'],
-                ogt='article', ogi=OG_IMAGE, jsonld=jsonld, path=spec['path'])
+                ogt='article', ogi=OG_IMAGE, jsonld=jsonld, path=spec['path'],
+                lang=spec.get('lang', 'en'))
 
 # ------------------------------------------------------------------ DETAIL
 def spec_tables(tables):
