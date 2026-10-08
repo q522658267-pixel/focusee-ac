@@ -656,6 +656,7 @@ def build_index():
     faq_html = ''.join(
         f'<details{" open" if i == 0 else ""}><summary>{q}</summary><div class="faq-a"><p>{a}</p></div></details>'
         for i, (q, a) in enumerate(faqs))
+    app_by_path = {p['fname']: p for p in APP_PAGES}
     res_tiles = ''.join(
         f'''<a class="cat-tile" href="{s['path']}">
   <div class="n">{i+1:02d}</div><h3>{esc(t)}</h3><p>{esc(d)}</p>
@@ -670,6 +671,12 @@ def build_index():
             ('OEM & private label guide',
              'ODM versus OEM, what can be customised, certification by market, tooling, MOQ and lead times.',
              APP_PAGES[2]),
+            ('Climatiseur portable en marque blanche (FR)',
+             'Version française : OEM et marque blanche pour le marché français — 230 V, prise Type F, notice en français.',
+             app_by_path['applications/fr-climatiseur-portable-oem.html']),
+            ('Certification CE, ErP & F-Gas (FR)',
+             'Version française : mise sur le marché UE, marquage CE, étiquette énergie et réfrigérant à faible PRG.',
+             app_by_path['applications/fr-certification-ce.html']),
         ]))
     body += f'''
 <section id="resources">
