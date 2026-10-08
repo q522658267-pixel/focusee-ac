@@ -352,8 +352,11 @@ def breadcrumb_ld(items):
 def itemlist_ld(name, items):
     els = []
     for i, it in enumerate(items):
+        u = it["url"]
+        if not u.startswith('http'):  # 已是绝对地址则不再拼 SITE，防止域名重复
+            u = SITE + u
         els.append({"@type": "ListItem", "position": i + 1,
-                    "name": it["name"], "url": SITE + it["url"]})
+                    "name": it["name"], "url": u})
     return ld({"@context": "https://schema.org", "@type": "ItemList",
                "name": name, "numberOfItems": len(els), "itemListElement": els})
 
