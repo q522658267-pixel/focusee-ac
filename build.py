@@ -76,6 +76,8 @@ LOGO = '68ca51498f2ea.png'
 # Google Search Console site-verification meta content. Paste the value from
 # GSC ("HTML 标记" method) here, then rebuild; empty = no tag emitted.
 GSC_VERIFY = ''
+# Bing Webmaster Tools site-verification meta content (msvalidate.01).
+BING_VERIFY = '3D0F53966638CB224E00DD2A93FE4BFC'
 def gallery(p):
     g=[]
     for im in ([p.get('thumb')] + p.get('thumbs',[])):
@@ -93,6 +95,7 @@ HEAD_T = '''<!DOCTYPE html>
 <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1">
 <meta name="author" content="Focusee Company Limited">
 {{GVERIFY}}
+{{BVERIFY}}
 <link rel="canonical" href="{{CANON}}">
 <meta name="theme-color" content="#0B5CAB">
 <meta property="og:type" content="{{OGT}}">
@@ -431,6 +434,9 @@ def page(fname, title, desc, body, active='', r='', canon=None, ogt='website', o
                .replace('{{GVERIFY}}',
                          ('<meta name="google-site-verification" content="%s">' % esca(GSC_VERIFY))
                          if GSC_VERIFY else '')
+               .replace('{{BVERIFY}}',
+                         ('<meta name="msvalidate.01" content="%s">' % esca(BING_VERIFY))
+                         if BING_VERIFY else '')
                .replace('{{JSONLD}}', jsonld))
     htmlout = h + header(active, r) + body + footer(r) + FOOT_T.replace('{{R}}', r)
     dest = os.path.join(ROOT, fname)
