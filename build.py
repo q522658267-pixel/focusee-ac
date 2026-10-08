@@ -177,6 +177,10 @@ def footer(r=''):
         <li><a href="{r}applications/tent-camping-ac.html">Camping &amp; RV Cooling</a></li>
         <li><a href="{r}applications/server-room-cooling.html">Server Room Cooling</a></li>
         <li><a href="{r}blog/oem-private-label-guide.html">OEM &amp; Private Label</a></li>
+        <li><a href="{r}applications/eu-ce-certification.html">EU CE / ErP Compliance</a></li>
+        <li><a href="{r}applications/france-distributor-oem.html">France Market OEM</a></li>
+        <li><a href="{r}blog/btu-sizing-guide.html">BTU Sizing Guide</a></li>
+        <li><a href="{r}blog/dehumidifier-capacity-guide.html">Dehumidifier Capacity</a></li>
       </ul></div>
       <div><h4>Contact</h4><ul>
         <li style="line-height:1.6">{esc(ADDRESS)}</li>
@@ -359,6 +363,25 @@ def itemlist_ld(name, items):
                     "name": it["name"], "url": u})
     return ld({"@context": "https://schema.org", "@type": "ItemList",
                "name": name, "numberOfItems": len(els), "itemListElement": els})
+
+def detail_faq_html(cat):
+    """Render category-specific buyer FAQ on each product page (drives FAQPage rich result)."""
+    faqs = CAT_FAQ.get(cat, [])
+    if not faqs:
+        return ''
+    return ''.join(
+        f'<details{" open" if i == 0 else ""}><summary>{esc(q)}</summary>'
+        f'<div class="faq-a"><p>{esc(a)}</p></div></details>'
+        for i, (q, a) in enumerate(faqs))
+
+def detail_faq_ld(cat):
+    faqs = CAT_FAQ.get(cat, [])
+    if not faqs:
+        return ''
+    return ld({"@context": "https://schema.org", "@type": "FAQPage",
+               "mainEntity": [{"@type": "Question", "name": q,
+                              "acceptedAnswer": {"@type": "Answer", "text": a}}
+                             for q, a in faqs]})
 
 def product_ld(p):
     img = p['g'][0] if p.get('g') else 'logo.png'
@@ -985,6 +1008,205 @@ APP_PAGES = [
   models=[],
   models_head='',
  ),
+ # ---- EU / France market (targets Fnac Darty, Boulanger, Leroy Merlin, Electro Dépôt, Cdiscount) ----
+ dict(
+  fname='applications/eu-ce-certification.html',
+  path='applications/eu-ce-certification.html',
+  title='CE, ERP & F-Gas Compliance for EU Portable AC Importers | Focusee',
+  desc='What EU importers need to place portable air conditioners, dehumidifiers and air purifiers on the market: CE marking, ErP energy label, F-Gas refrigerant rules, technical file and documentation, supplied by Focusee.',
+  h1='Placing portable air conditioners on the EU market',
+  eyebrow='EU compliance',
+  lede='Selling a portable air conditioner, dehumidifier or air purifier in the European Union means meeting CE marking, the ErP energy-labelling rules and the F-Gas refrigerant requirements. This page sets out what the documentation covers and how we support EU importers and private-label brands through conformity.',
+  blocks=[
+   ('h2', 'CE marking: the baseline for the EU market'),
+   ('p', 'Every unit placed on the EU market must carry a valid CE mark backed by a technical file: the EU Declaration of Conformity, the applicable harmonised standards for electrical safety and electromagnetic compatibility, and the test reports behind them. The mark is the importer\u2019s statement that the product meets the relevant EU legislation.'),
+   ('ul', [
+     'Low Voltage Directive (LVD) \u2013 electrical safety',
+     'EMC Directive \u2013 electromagnetic compatibility',
+     'RoHS \u2013 restriction of hazardous substances',
+     'REACH \u2013 chemical substance documentation',
+     'Ecodesign and energy-labelling requirements',
+   ]),
+   ('h2', 'ErP energy labelling'),
+   ('p', 'Portable air conditioners and dehumidifiers fall under the EU ecodesign and energy-labelling rules. A compliant product ships with the correct energy label and product information sheet, and the seasonal efficiency values are recorded in the technical file. Private-label buyers receive label artwork and the fiche text in the languages of the markets they sell into.'),
+   ('h2', 'F-Gas and refrigerant choice'),
+   ('p', 'The F-Gas Regulation restricts high-GWP refrigerants. Focusee builds portable units with R290 (propane) and R32 low-GWP refrigerants selected per model and per market, with the refrigerant charge and documentation needed for import clearance. Choosing the right refrigerant is part of the model selection, not an afterthought.'),
+   ('note', 'Refrigerant rules change. Confirm the current GWP limits and any model-specific restrictions for your target member states before the bill of materials is frozen.'),
+   ('h2', 'The technical file and what the importer holds'),
+   ('p', 'The importer is responsible for the product on the EU market. Keep the technical documentation, the Declaration of Conformity and the test reports on file, and make sure the rated values on the label match the tested unit. We release the batch test reports with the order so the file is complete at shipment.'),
+   ('h2', 'UKCA alongside CE'),
+   ('p', 'For Great Britain the equivalent mark is UKCA. Many EU models can be prepared for both markets; tell us if you sell into the UK as well as the EU so the documentation covers both routes.'),
+   ('h2', 'How Focusee supports EU importers'),
+   ('ul', [
+     'CE marking with a complete technical file and EU Declaration of Conformity',
+     'ErP energy label and product fiche artwork per market language',
+     'R290 / R32 low-GWP refrigerant selection and documentation',
+     'Batch test reports released with the shipment',
+     'Voltage, plug (Type F / Schuko) and manual language set for the EU',
+   ]),
+  ],
+  faqs=[
+   ('What does CE marking actually require for a portable air conditioner?',
+    'A valid CE mark is backed by a technical file: the EU Declaration of Conformity plus the test reports for electrical safety (LVD), electromagnetic compatibility (EMC), RoHS and the applicable ecodesign rules. The importer holds this file and must be able to present it on request.'),
+   ('Do I need an energy label for the EU?',
+    'Yes, for portable air conditioners and dehumidifiers. The product ships with the correct EU energy label and product information sheet, and the seasonal efficiency values are recorded in the technical file. Label artwork and fiche text are supplied in the market languages you sell into.'),
+   ('Which refrigerant do you use for the EU?',
+    'We build with R290 and R32 low-GWP refrigerants, chosen per model and per market to meet the F-Gas Regulation. The refrigerant charge and supporting documentation are provided for import clearance.'),
+   ('Can one model be sold in both the EU and the UK?',
+    'Often yes. The EU uses CE marking and Great Britain uses UKCA; many models can be prepared for both. Tell us if you sell into both so the documentation covers each route.'),
+   ('What documents do I receive with the shipment?',
+    'The batch test reports, the Declaration of Conformity and the labelling artwork are released with the order so your technical file is complete at the time of shipment.'),
+   ('Can I order these under my own brand for the EU?',
+    'Yes. Private-label units are delivered with your carton, rating label, manual and energy-label artwork, all prepared for EU conformity.'),
+  ],
+  models=['PCX5R-18MA', 'PC-LMA', 'PC20S-22MA'],
+  models_head='EU-ready portable models for private label',
+ ),
+ dict(
+  fname='applications/france-distributor-oem.html',
+  path='applications/france-distributor-oem.html',
+  title='Portable Air Conditioner OEM for the French Market | Focusee',
+  desc='Private-label and OEM portable air conditioners for French retailers and distributors: 230 V / 50 Hz Type F plug, French manual and energy label, ErP compliance, mixed-container supply and lead times.',
+  h1='Portable air conditioners for the French market',
+  eyebrow='France',
+  lede='The French retail and distribution channel \u2014 specialist appliances, DIY and electronics \u2014 buys portable air conditioners as a seasonal, private-label and own-brand category. This page covers the configuration and documentation French buyers expect, and how we supply them.',
+  blocks=[
+   ('h2', 'What the French market expects'),
+   ('p', 'French buyers specify 230 V / 50 Hz with a Type F (Schuko) plug, a French-language user manual and rating label, and the EU energy label. Seasonal demand peaks before summer, so lead time and a planned repeat programme matter as much as the unit itself.'),
+   ('ul', [
+     '230 V / 50 Hz with Type F (Schuko) plug',
+     'French-language manual, rating label and packaging text',
+     'EU energy label and product fiche for France',
+     'CE marking with a complete technical file',
+     'R290 / R32 low-GWP refrigerant for the EU',
+   ]),
+   ('h2', 'Channels we supply'),
+   ('p', 'Focusee supplies importers, distributors and retail brands across the French market. Whether the destination is a specialist appliance chain, a DIY and home-improvement retailer, or an online marketplace, the model selection and the packaging are prepared to the channel.'),
+   ('h2', 'Private label and own-brand'),
+   ('p', 'Most French programmes run as private label on a proven platform: your logo, retail carton, rating label and manual, with voltage, plug and refrigerant set for France. A full OEM programme with bespoke industrial design is available for buyers with the volume to support tooling.'),
+   ('h2', 'Capacity range for France'),
+   ('p', 'French apartments and smaller homes drive demand for compact 7,000\u201312,000 BTU units, while larger flats and town houses take 12,000\u201324,000 BTU. We cover the full range and can recommend the mix for a first order based on your customer profile.'),
+   ('h2', 'Logistics and lead time'),
+   ('ul', [
+     'Mixed containers \u2013 portable AC, dehumidifiers and purifiers combined',
+     'Typical production 30\u201345 days after sample and artwork approval',
+     'FOB or CIF to a French port, with documentation for clearance',
+     'Repeat orders planned ahead of the spring build-up',
+   ]),
+   ('note', 'Plan the first order well before the seasonal peak. Certification and artwork are on the critical path, and production slots tighten from late winter.'),
+  ],
+  faqs=[
+   ('What voltage and plug do French buyers require?',
+    '230 V / 50 Hz with a Type F (Schuko) plug, a French-language manual and rating label, and the EU energy label. We configure voltage, plug and manual at assembly for the French market.'),
+   ('Can you supply our own brand for the French market?',
+    'Yes. Private-label units ship with your carton, rating label, manual and energy-label artwork, all prepared for EU conformity and the French language.'),
+   ('Which capacities sell in France?',
+    'Compact 7,000\u201312,000 BTU units lead for apartments, with 12,000\u201324,000 BTU for larger homes. We can recommend a first-order mix from your customer profile.'),
+   ('What is the lead time for a French order?',
+    'Typically 30\u201345 days after sample and artwork approval, plus transit. Because seasonal demand peaks before summer, plan the first order ahead of the spring build-up.'),
+   ('Can models be mixed in one container to France?',
+    'Yes. Portable air conditioners, dehumidifiers and air purifiers can be combined in a single container with a loading plan, which suits a multi-category French assortment.'),
+   ('Do you handle CE and ErP documentation?',
+    'Yes. We supply CE marking with the technical file, the EU energy label and fiche, and the refrigerant documentation needed for French import.'),
+  ],
+  models=['PCX5R-18MA', 'PC-LMA', 'PC20S-22MA'],
+  models_head='Compact-to-mid models suited to the French market',
+ ),
+ # ---- Blog: buyer guides (tool-type, link-worthy) ----
+ dict(
+  fname='blog/btu-sizing-guide.html',
+  path='blog/btu-sizing-guide.html',
+  title='How to Size a Portable Air Conditioner by BTU and Room | Focusee',
+  desc='A practical BTU sizing guide for portable air conditioners: convert room square metres to BTU, adjust for sun, ceiling height and occupancy, and avoid the two mistakes that leave a unit underpowered.',
+  h1='Sizing a portable air conditioner: a BTU guide',
+  eyebrow='Guide',
+  lede='Choosing the right portable air conditioner starts with cooling capacity, measured in BTU. Size it too small and the room never reaches temperature; too large and the unit short-cycles. This guide turns room dimensions into a sensible BTU range.',
+  blocks=[
+   ('h2', 'Start with the floor area'),
+   ('p', 'Cooling capacity for a room is usually estimated from the floor area. A practical starting point for a standard ceiling height of about 2.5 m is roughly 20 BTU per square foot, or about 215 BTU per square metre. Use it as a first pass, then adjust for the factors below.'),
+   ('table', ['Room', 'Area', 'Suggested capacity'], [
+     ['Small bedroom', '10 \u2013 15 m\u00b2', '7,000 \u2013 9,000 BTU'],
+     ['Large bedroom / office', '15 \u2013 25 m\u00b2', '9,000 \u2013 12,000 BTU'],
+     ['Living room', '25 \u2013 35 m\u00b2', '12,000 \u2013 14,000 BTU'],
+     ['Open-plan / large space', '35 \u2013 50 m\u00b2', '14,000 \u2013 24,000 BTU'],
+   ]),
+   ('note', 'Example: a 20 m\u00b2 room \u00d7 215 BTU \u2248 4,300 BTU as a base \u2014 but a living room with sun and two occupants should be rounded up well past the 9,000 BTU mark.'),
+   ('h2', 'Adjust for the real conditions'),
+   ('p', 'Floor area alone under-specifies most rooms. Add capacity for the things that load the space with heat:'),
+   ('ul', [
+     'Direct sun or a west-facing window \u2013 add 10\u201320 %',
+     'High ceilings (above 2.7 m) \u2013 add roughly 10 % per extra 30 cm',
+     'More than two occupants \u2013 each person adds heat',
+     'Heat-producing equipment \u2013 computers, kitchen, servers',
+     'Top-floor rooms \u2013 the roof adds gain',
+   ]),
+   ('h2', 'Two mistakes that leave a unit underpowered'),
+   ('p', 'The first is ignoring the sun and rounding down to the nearest catalogue size. The second is forgetting that a portable unit must exhaust heat through a duct, so a poorly sealed window lets cooled air escape and forces the unit to work harder. Seal the vent panel and keep the duct run short.'),
+   ('h2', 'Single-hose vs dual-hose'),
+   ('p', 'A single-hose unit draws room air to cool the condenser and pushes it out through the same duct, which pulls warm air back in. A dual-hose unit uses outside air for the condenser, so it cools more efficiently in the same space. For rooms above about 25 m\u00b2, dual-hose is worth specifying.'),
+   ('h2', 'Match capacity to the market'),
+   ('p', 'Voltage and plug are set for the destination market, but capacity is set by the room. Tell us the room types and sizes you sell into and we will propose the BTU spread for the line, with the models and MOQ to match.'),
+  ],
+  faqs=[
+   ('How many BTU do I need per square metre?',
+    'As a first pass, about 215 BTU per square metre for a standard 2.5 m ceiling, then add capacity for sun, high ceilings, occupants and equipment. A 20 m\u00b2 room is roughly a 9,000 BTU starting point before adjustments.'),
+   ('Should I round up or down?',
+    'Round up. An underpowered unit never reaches temperature on a hot day and runs continuously; a slightly larger unit reaches setpoint and cycles off, which is easier on the compressor.'),
+   ('Does a portable AC need venting?',
+    'Yes. The heat removed from the room is pushed out through an exhaust duct. Seal the window vent panel and keep the duct run short so cooled air is not lost.'),
+   ('Single-hose or dual-hose?',
+    'Dual-hose is more efficient in the same space because it uses outside air for the condenser instead of pulling room air through the unit. For rooms above about 25 m\u00b2 it is worth specifying.'),
+   ('Can I size by room type instead of maths?',
+    'A rule-of-thumb table by room size is a good shortcut, but always adjust upward for sun and occupancy. Send us your room profile and we will propose the capacity spread for the line.'),
+  ],
+  models=[],
+  models_head='',
+ ),
+ dict(
+  fname='blog/dehumidifier-capacity-guide.html',
+  path='blog/dehumidifier-capacity-guide.html',
+  title='Choosing a Dehumidifier Capacity (Litres/Day) | Focusee',
+  desc='How to pick dehumidifier capacity in litres per day: match extraction rate to room size, dampness level and use \u2014 basement, warehouse, laundry or comfort \u2014 plus auto-defrost and drain options.',
+  h1='Choosing a dehumidifier capacity',
+  eyebrow='Guide',
+  lede='Dehumidifier capacity is rated in litres of water removed per day. Pick too low and the space stays damp; pick by litres alone and you can still miss the job if the room is cold or needs continuous drain. This guide matches capacity to the situation.',
+  blocks=[
+   ('h2', 'Capacity is litres per day, not tank size'),
+   ('p', 'The headline number \u2014 10 L/day, 20 L/day, 50 L/day \u2014 is the extraction rate at a standard test condition. It is not the tank volume. A larger tank just means less frequent emptying; the litres/day figure is what decides whether the room dries.'),
+   ('table', ['Space', 'Typical capacity', 'Notes'], [
+     ['Flat / small basement', '10 \u2013 20 L/day', 'Comfort and light dampness'],
+     ['Warehouse / light-commercial', '20 \u2013 35 L/day', 'Larger air volume, longer run time'],
+     ['Large / very damp space', '35 \u2013 50 L/day', 'Flood recovery, storage, production'],
+   ]),
+   ('h2', 'Match capacity to how damp it is'),
+   ('p', 'The same room needs more capacity if it is genuinely wet rather than merely humid. A laundry room or a basement after rain loads the air far more than a mildly humid living room, so size for the worst week, not the average day.'),
+   ('ul', [
+     'Mild humidity \u2013 occasional condensation on windows',
+     'Moderate damp \u2013 musty smell, visible moisture',
+     'Severe \u2013 standing water, flooding, storage at risk',
+   ]),
+   ('h2', 'Cold spaces need auto-defrost'),
+   ('p', 'Below about 15 \u00b0C a dehumidifier\u2019s coil can ice up. Basements and unheated stores run cold, so auto-defrost is the specification point that keeps the unit working through winter. All Focusee dehumidifiers include auto-defrost.'),
+   ('h2', 'Continuous drain vs tank'),
+   ('p', 'For unattended or round-the-clock duty \u2014 a warehouse, a storage room, a flood recovery \u2014 a continuous-drain hose or condensate pump removes water without anyone emptying the tank. For a bedroom or office, the internal tank is usually enough.'),
+   ('h2', 'Picking the line'),
+   ('p', 'Decide the capacity band from the room and the dampness, then choose drain and defrost options from how it will be used. Tell us the spaces and duty cycle and we will propose the models and MOQ for the range.'),
+  ],
+  faqs=[
+   ('How many litres per day do I need?',
+    'A flat or small basement typically needs 10\u201320 L/day, a warehouse or light-commercial space 20\u201335 L/day, and a large or very damp space 35\u201350 L/day. Size for the worst week, not the average day.'),
+   ('Is the litres/day number the tank size?',
+    'No. Litres/day is the extraction rate at standard test conditions; the tank only sets how often you empty it. The extraction rate is what dries the room.'),
+   ('Do I need auto-defrost?',
+    'If the space runs below about 15 \u00b0C \u2014 a basement or unheated store \u2014 yes. The coil can ice up without it. All Focusee dehumidifiers include auto-defrost.'),
+   ('Tank or continuous drain?',
+    'A tank suits a bedroom or office. For unattended or continuous duty such as a warehouse or flood recovery, choose the continuous-drain hose or condensate pump so the unit never stops on a full tank.'),
+   ('Can these be private labelled?',
+    'Yes. Dehumidifiers are available for private label with your carton, rating label and manual, and the capacity and drain options set for your market.'),
+  ],
+  models=[],
+  models_head='',
+ ),
 ]
 
 def build_app(spec):
@@ -1170,6 +1392,14 @@ def build_detail(p):
   <div class="grid">{rel_html}</div>
 </div></section>
 
+<section class="alt" id="faq" style="background:#fff"><div class="wrap">
+  <div class="sec-head">
+    <span class="eyebrow g">Buyer questions</span>
+    <h2>{esc(p['cat'])} — frequently asked questions</h2>
+  </div>
+  <div class="faq">{detail_faq_html(p['cat'])}</div>
+</div></section>
+
 {cta()}
 '''
     word = CATEGORY_WORD.get(p['cat'], 'portable air comfort unit')
@@ -1181,7 +1411,8 @@ def build_detail(p):
     jsonld = (product_ld(p) + '\n'
               + breadcrumb_ld([('Home', SITE), ('Products', SITE + 'products.html'),
                                (p['cat'], SITE + 'products.html#' + CAT_SLUG.get(p['cat'], '')),
-                               (p['name'], None)]))
+                               (p['name'], None)])
+              + ('\n' + detail_faq_ld(p['cat']) if detail_faq_ld(p['cat']) else ''))
     return page(f'product-{p["slug"]}.html',
                 f'{p["name"]} {word} | Focusee Company Limited',
                 desc, body, ogt='product', ogi=ogimg, jsonld=jsonld)
